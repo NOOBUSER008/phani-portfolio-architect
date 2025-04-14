@@ -34,6 +34,11 @@
     --ring: 221 83% 53%;
  
     --radius: 0.5rem;
+    
+    /* DevOps theme colors - Light */
+    --devops-primary: 210 100% 50%;
+    --devops-secondary: 262 83% 58%;
+    --devops-accent: 199 89% 48%;
   }
  
   .dark {
@@ -64,6 +69,11 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
+    
+    /* DevOps theme colors - Dark */
+    --devops-primary: 217 91% 60%;
+    --devops-secondary: 263 70% 50%;
+    --devops-accent: 196 80% 79%;
   }
 }
  
@@ -106,7 +116,7 @@
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-primary via-blue-500 to-blue-600 dark:from-blue-400 dark:via-blue-300 dark:to-purple-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 via-purple-500 to-blue-500 dark:from-blue-400 dark:via-purple-400 dark:to-blue-300 bg-clip-text text-transparent;
   }
   
   .profile-gradient {
@@ -115,5 +125,74 @@
   
   .card-gradient {
     @apply bg-gradient-to-br from-card to-secondary/30 hover:to-primary/10 transition-all duration-300;
+  }
+  
+  /* DevOps specific styling */
+  .devops-glow {
+    @apply relative;
+    box-shadow: 0 0 20px 5px hsla(var(--devops-primary), 0.3);
+  }
+  
+  .devops-card {
+    @apply rounded-lg border border-blue-200/30 dark:border-blue-900/30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm;
+  }
+  
+  .infinity-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: dash 10s linear infinite;
+  }
+  
+  .connect-card {
+    @apply bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-lg border border-blue-100 dark:border-blue-900 p-6 shadow-lg;
+    box-shadow: 0 4px 20px rgba(0, 100, 255, 0.15);
+  }
+  
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 0;
+    }
+    from {
+      stroke-dashoffset: 1000;
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 3s ease-in-out infinite;
+  }
+  
+  .animate-rotate {
+    animation: rotate 20s linear infinite;
   }
 }

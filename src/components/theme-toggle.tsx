@@ -14,7 +14,7 @@ export function ThemeToggle() {
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="w-10 h-10 rounded-full transition-all relative overflow-hidden border-primary/20"
+      className="w-10 h-10 rounded-full transition-all relative overflow-hidden border-primary/20 devops-glow"
       aria-label="Toggle theme"
     >
       <motion.div

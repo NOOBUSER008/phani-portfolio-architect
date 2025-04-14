@@ -2,6 +2,7 @@
 import { ArrowDownIcon, Download } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import profileImg from "/lovable-uploads/db51e5ab-c509-4b43-bf46-417c9d9b26b4.png"
 
 export default function HeroSection() {
   return (
@@ -27,13 +28,13 @@ export default function HeroSection() {
               Specializing in infrastructure management, automation, and cloud security with over 4 years of experience.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button size="lg" asChild className="rounded-full">
+              <Button size="lg" asChild className="rounded-full bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-purple-500 hover:shadow-lg hover:shadow-primary/20">
                 <a href="#contact">Get in Touch</a>
               </Button>
-              <Button size="lg" variant="outline" asChild className="rounded-full">
+              <Button size="lg" variant="outline" asChild className="rounded-full border-primary/20 hover:border-primary/80">
                 <a href="#projects">View Projects</a>
               </Button>
-              <Button size="lg" variant="secondary" asChild className="rounded-full">
+              <Button size="lg" variant="secondary" asChild className="rounded-full bg-gradient-to-r from-secondary/50 to-secondary/20 dark:from-accent dark:to-accent/50">
                 <a href="/assets/phani_mathangi_resume.pdf" download>
                   <Download className="mr-2 h-4 w-4" />
                   Resume
@@ -48,11 +49,28 @@ export default function HeroSection() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 flex-center">
-              <div className="absolute inset-3 rounded-full bg-card flex-center">
-                <div className="text-5xl sm:text-6xl md:text-7xl font-bold">PM</div>
-              </div>
-            </div>
+            <motion.div 
+              className="profile-container"
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              {profileImg ? (
+                <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full profile-gradient p-1.5 shadow-2xl shadow-primary/10">
+                  <div className="absolute inset-0 rounded-full blur-xl opacity-50 profile-gradient"></div>
+                  <img 
+                    src={profileImg} 
+                    alt="Phani Mathangi" 
+                    className="w-full h-full object-cover rounded-full p-1 bg-card"
+                  />
+                </div>
+              ) : (
+                <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full profile-gradient flex-center shadow-2xl shadow-primary/30">
+                  <div className="absolute inset-5 rounded-full bg-card flex-center">
+                    <div className="text-5xl sm:text-6xl md:text-7xl font-bold text-gradient">PM</div>
+                  </div>
+                </div>
+              )}
+            </motion.div>
           </motion.div>
         </div>
         
@@ -67,7 +85,12 @@ export default function HeroSection() {
             className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors"
           >
             <span className="text-sm mb-2">Scroll Down</span>
-            <ArrowDownIcon className="h-5 w-5 animate-bounce" />
+            <motion.div
+              animate={{ y: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              <ArrowDownIcon className="h-5 w-5" />
+            </motion.div>
           </a>
         </motion.div>
       </div>

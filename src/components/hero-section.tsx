@@ -1,5 +1,5 @@
 
-import { ArrowDownIcon } from "lucide-react"
+import { ArrowDownIcon, Download } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
@@ -32,6 +32,12 @@ export default function HeroSection() {
               </Button>
               <Button size="lg" variant="outline" asChild className="rounded-full">
                 <a href="#projects">View Projects</a>
+              </Button>
+              <Button size="lg" variant="secondary" asChild className="rounded-full">
+                <a href="/assets/phani_mathangi_resume.pdf" download>
+                  <Download className="mr-2 h-4 w-4" />
+                  Resume
+                </a>
               </Button>
             </div>
           </motion.div>

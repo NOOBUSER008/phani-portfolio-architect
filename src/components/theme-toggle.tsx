@@ -4,6 +4,7 @@
 import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
+import { motion } from "framer-motion"
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -13,10 +14,33 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="w-9 h-9 rounded-full transition-all"
+      className="w-9 h-9 rounded-full transition-all relative overflow-hidden"
+      aria-label="Toggle theme"
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <motion.div
+        initial={false}
+        animate={{ 
+          rotate: theme === "dark" ? 0 : -90,
+          opacity: theme === "dark" ? 1 : 0,
+          scale: theme === "dark" ? 1 : 0 
+        }}
+        transition={{ duration: 0.4 }}
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        <Moon className="h-[1.2rem] w-[1.2rem]" />
+      </motion.div>
+      <motion.div
+        initial={false}
+        animate={{ 
+          rotate: theme === "light" ? 0 : 90,
+          opacity: theme === "light" ? 1 : 0,
+          scale: theme === "light" ? 1 : 0 
+        }}
+        transition={{ duration: 0.4 }}
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        <Sun className="h-[1.2rem] w-[1.2rem]" />
+      </motion.div>
       <span className="sr-only">Toggle theme</span>
     </Button>
   )

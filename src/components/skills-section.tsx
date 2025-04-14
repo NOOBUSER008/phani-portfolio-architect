@@ -1,10 +1,12 @@
 
 import { motion } from "framer-motion";
+import { ArrowLeftRight } from "lucide-react";
 
 // Define our skills with icons for visualization
 const skillsData = [
   {
     category: "Cloud Platforms",
+    flowDirection: "right",
     skills: [
       { name: "AWS", icon: "/assets/aws.svg" },
       { name: "Azure", icon: "/assets/azure.svg" },
@@ -12,6 +14,7 @@ const skillsData = [
   },
   {
     category: "Cloud Services",
+    flowDirection: "left",
     skills: [
       { name: "EC2", icon: "/assets/ec2.svg" },
       { name: "Lambda", icon: "/assets/lambda.svg" },
@@ -29,6 +32,7 @@ const skillsData = [
   },
   {
     category: "CI/CD Tools",
+    flowDirection: "right",
     skills: [
       { name: "GitHub Actions", icon: "/assets/github-actions.svg" },
       { name: "Jenkins", icon: "/assets/jenkins.svg" },
@@ -36,6 +40,7 @@ const skillsData = [
   },
   {
     category: "Version Control System",
+    flowDirection: "left",
     skills: [
       { name: "Git", icon: "/assets/git.svg" },
       { name: "GitHub", icon: "/assets/github.svg" },
@@ -43,6 +48,7 @@ const skillsData = [
   },
   {
     category: "Infrastructure as Code",
+    flowDirection: "right",
     skills: [
       { name: "Terraform", icon: "/assets/terraform.svg" },
       { name: "CloudFormation", icon: "/assets/cloudformation.svg" },
@@ -50,6 +56,7 @@ const skillsData = [
   },
   {
     category: "Containerization",
+    flowDirection: "left",
     skills: [
       { name: "Docker", icon: "/assets/docker.svg" },
       { name: "Kubernetes", icon: "/assets/kubernetes.svg" },
@@ -58,6 +65,7 @@ const skillsData = [
   },
   {
     category: "Scripting Languages",
+    flowDirection: "right",
     skills: [
       { name: "Bash", icon: "/assets/bash.svg" },
       { name: "Python", icon: "/assets/python.svg" },
@@ -65,6 +73,7 @@ const skillsData = [
   },
   {
     category: "Monitoring & Logging",
+    flowDirection: "left",
     skills: [
       { name: "Prometheus", icon: "/assets/prometheus.svg" },
       { name: "Grafana", icon: "/assets/grafana.svg" },
@@ -74,12 +83,14 @@ const skillsData = [
   },
   {
     category: "Ticketing Tools",
+    flowDirection: "right",
     skills: [
       { name: "JIRA", icon: "/assets/jira.svg" },
     ]
   },
   {
     category: "Security Tools",
+    flowDirection: "left",
     skills: [
       { name: "AWS Security Hub", icon: "/assets/security-hub.svg" },
       { name: "Microsoft Sentinel", icon: "/assets/sentinel.svg" },
@@ -90,6 +101,7 @@ const skillsData = [
   },
   {
     category: "Operating Systems",
+    flowDirection: "right",
     skills: [
       { name: "Linux (Amazon Linux, Ubuntu, RHEL)", icon: "/assets/linux.svg" },
       { name: "Windows", icon: "/assets/windows.svg" },
@@ -118,6 +130,20 @@ export default function SkillsSection() {
     }
   };
 
+  const marqueeVariants = {
+    animate: (direction: string) => ({
+      x: direction === 'right' ? [0, -1000] : [-1000, 0],
+      transition: {
+        x: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: 20,
+          ease: "linear"
+        }
+      }
+    })
+  };
+
   return (
     <section id="skills" className="py-16 md:py-24">
       <div className="section-container">
@@ -129,36 +155,46 @@ export default function SkillsSection() {
           </p>
         </div>
 
-        <div className="space-y-12">
+        <div className="space-y-16">
           {skillsData.map((category, categoryIndex) => (
             <div key={categoryIndex} className={`${categoryIndex % 2 === 0 ? '' : 'bg-secondary/30'} p-6 rounded-lg`}>
-              <h3 className="heading-sm mb-6">{category.category}</h3>
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="heading-sm">{category.category}</h3>
+                <ArrowLeftRight className={`h-5 w-5 ${category.flowDirection === 'right' ? 'text-primary' : 'rotate-180 text-primary'}`} />
+              </div>
               
-              <motion.div 
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-              >
-                {category.skills.map((skill, skillIndex) => (
-                  <motion.div 
-                    key={skillIndex}
-                    className="bg-card p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center card-hover"
-                    variants={itemVariants}
-                  >
-                    <div className="w-12 h-12 mb-3 flex-center">
-                      {/* Fallback icon if image doesn't load */}
-                      <div className="bg-primary/20 w-full h-full rounded-full flex-center">
-                        <span className="text-primary font-bold text-lg">
-                          {skill.name.charAt(0)}
-                        </span>
+              <div className="overflow-hidden">
+                <motion.div 
+                  className="flex gap-4"
+                  variants={marqueeVariants}
+                  animate="animate"
+                  custom={category.flowDirection}
+                  style={{
+                    display: "flex",
+                    width: "fit-content",
+                    minWidth: "100%"
+                  }}
+                >
+                  {/* Double the items to create a continuous flow effect */}
+                  {[...category.skills, ...category.skills].map((skill, skillIndex) => (
+                    <motion.div 
+                      key={skillIndex}
+                      className="bg-card p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center card-hover min-w-24"
+                      variants={itemVariants}
+                    >
+                      <div className="w-12 h-12 mb-3 flex-center">
+                        {/* Fallback icon if image doesn't load */}
+                        <div className="bg-primary/20 w-full h-full rounded-full flex-center">
+                          <span className="text-primary font-bold text-lg">
+                            {skill.name.charAt(0)}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    <p className="text-sm font-medium">{skill.name}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
+                      <p className="text-sm font-medium">{skill.name}</p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
             </div>
           ))}
         </div>

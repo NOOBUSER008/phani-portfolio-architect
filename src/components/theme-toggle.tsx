@@ -2,20 +2,11 @@
 "use client"
 
 import { Moon, Sun } from "lucide-react"
-import { useTheme as useNextTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
+import { useTheme } from "@/components/theme-provider"
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useNextTheme()
-  const [mounted, setMounted] = useState(false)
-
-  // When mounted on client, now we can show the UI
-  useEffect(() => setMounted(true), [])
-
-  if (!mounted) {
-    return <Button variant="ghost" size="icon" className="opacity-0 w-9 h-9" />
-  }
+  const { theme, setTheme } = useTheme()
 
   return (
     <Button

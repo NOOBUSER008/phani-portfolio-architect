@@ -28,7 +28,7 @@ export function ThemeToggle() {
       
       {/* DevOps Infinity Symbol */}
       <motion.div
-        className="absolute inset-0 flex items-center justify-center opacity-80 pointer-events-none"
+        className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none"
         animate={{
           rotate: [0, 360],
           scale: [0.9, 1.1, 0.9]
@@ -39,26 +39,16 @@ export function ThemeToggle() {
         }}
       >
         <svg
-          width="40"
-          height="20"
-          viewBox="0 0 40 20"
+          width="24"
+          height="12"
+          viewBox="0 0 24 12"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           className="w-7 h-7"
         >
-          <defs>
-            <linearGradient id="infinityGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={theme === "dark" ? "#61dafb" : "#0078d7"} />
-              <stop offset="100%" stopColor={theme === "dark" ? "#6554C0" : "#36B37E"} />
-            </linearGradient>
-            <linearGradient id="infinityGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={theme === "dark" ? "#6554C0" : "#6554C0"} />
-              <stop offset="100%" stopColor={theme === "dark" ? "#FF5630" : "#FF5630"} />
-            </linearGradient>
-          </defs>
           <motion.path
-            d="M10,10 C10,6 15,6 15,10 C15,14 20,14 20,10"
-            stroke="url(#infinityGradient1)"
+            d="M9,4 C11,0 15,0 17,4 C19,8 23,8 23,4"
+            stroke={theme === "dark" ? "#61dafb" : "#0078d7"}
             strokeWidth="2"
             strokeLinecap="round"
             initial={{ pathLength: 0 }}
@@ -71,8 +61,8 @@ export function ThemeToggle() {
             }}
           />
           <motion.path
-            d="M20,10 C20,6 25,6 25,10 C25,14 30,14 30,10"
-            stroke="url(#infinityGradient2)"
+            d="M9,4 C7,8 3,8 1,4 C-1,0 3,0 5,4"
+            stroke={theme === "dark" ? "#6554C0" : "#6554C0"}
             strokeWidth="2"
             strokeLinecap="round"
             initial={{ pathLength: 0 }}
@@ -83,38 +73,6 @@ export function ThemeToggle() {
               repeatType: "loop",
               ease: "easeInOut",
               delay: 1
-            }}
-          />
-          <motion.path
-            d="M15,10 C15,6 10,6 10,10"
-            stroke="url(#infinityGradient1)"
-            strokeDasharray="0 1"
-            strokeWidth="2"
-            strokeLinecap="round"
-            initial={{ pathLength: 0, strokeDasharray: "0 1" }}
-            animate={{ pathLength: 1, strokeDasharray: "1 0" }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "easeInOut",
-              delay: 2
-            }}
-          />
-          <motion.path
-            d="M30,10 C30,6 25,6 25,10"
-            stroke="url(#infinityGradient2)"
-            strokeDasharray="0 1"
-            strokeWidth="2"
-            strokeLinecap="round"
-            initial={{ pathLength: 0, strokeDasharray: "0 1" }}
-            animate={{ pathLength: 1, strokeDasharray: "1 0" }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "easeInOut",
-              delay: 3
             }}
           />
         </svg>

@@ -1,11 +1,90 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Linkedin, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Linkedin, Send, Check } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 export default function ContactSection() {
+  const [isSending, setIsSending] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate form
+    if (!formData.name || !formData.email || !formData.message) {
+      toast({
+        title: "Error",
+        description: "Please fill all required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSending(true);
+    
+    // This would be replaced with your actual email service integration
+    // Example with EmailJS or a similar service
+    try {
+      // Simulate sending email - in a real app, you'd use a service like EmailJS, Resend, etc.
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Email body for mailto link as fallback
+      const emailBody = `
+        Name: ${formData.name}
+        Email: ${formData.email}
+        Subject: ${formData.subject}
+        
+        Message:
+        ${formData.message}
+      `;
+      
+      // Open the user's email client as a fallback method
+      window.open(`mailto:phanimathangi98@gmail.com?subject=${encodeURIComponent(formData.subject || 'Contact from Portfolio')}&body=${encodeURIComponent(emailBody)}`);
+      
+      setIsSuccess(true);
+      toast({
+        title: "Message sent!",
+        description: "Thank you for reaching out. I'll get back to you soon.",
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: ""
+      });
+      
+      // Reset success state after some time
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+    } catch (error) {
+      toast({
+        title: "Error sending message",
+        description: "Please try again or contact me directly via email.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-16 md:py-24 bg-blue-50/50 dark:bg-blue-900/10">
       <div className="section-container">
@@ -27,36 +106,82 @@ export default function ContactSection() {
             viewport={{ once: true }}
           >
             <h3 className="heading-sm mb-6 text-gradient">Send a Message</h3>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-sm font-medium">
-                    Full Name
+                    Full Name*
                   </label>
-                  <Input id="name" placeholder="Your name" className="border-blue-200 dark:border-blue-900" />
+                  <Input 
+                    id="name" 
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Your name" 
+                    className="border-blue-200 dark:border-blue-900" 
+                    required
+                  />
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium">
-                    Email
+                    Email*
                   </label>
-                  <Input id="email" type="email" placeholder="Your email" className="border-blue-200 dark:border-blue-900" />
+                  <Input 
+                    id="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    type="email" 
+                    placeholder="Your email" 
+                    className="border-blue-200 dark:border-blue-900" 
+                    required
+                  />
                 </div>
               </div>
               <div className="space-y-2">
                 <label htmlFor="subject" className="text-sm font-medium">
                   Subject
                 </label>
-                <Input id="subject" placeholder="Message subject" className="border-blue-200 dark:border-blue-900" />
+                <Input 
+                  id="subject" 
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="Message subject" 
+                  className="border-blue-200 dark:border-blue-900" 
+                />
               </div>
               <div className="space-y-2">
                 <label htmlFor="message" className="text-sm font-medium">
-                  Message
+                  Message*
                 </label>
-                <Textarea id="message" placeholder="Your message" rows={5} className="border-blue-200 dark:border-blue-900" />
+                <Textarea 
+                  id="message" 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Your message" 
+                  rows={5} 
+                  className="border-blue-200 dark:border-blue-900" 
+                  required
+                />
               </div>
-              <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 group">
-                <span>Send Message</span>
-                <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <Button 
+                type="submit" 
+                disabled={isSending || isSuccess}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 group transition-all"
+              >
+                {isSuccess ? (
+                  <>
+                    <Check className="mr-2 h-4 w-4" />
+                    <span>Message Sent</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{isSending ? "Sending..." : "Send Message"}</span>
+                    <Send className={`ml-2 h-4 w-4 transition-transform ${!isSending && "group-hover:translate-x-1"}`} />
+                  </>
+                )}
               </Button>
             </form>
           </motion.div>
@@ -72,8 +197,9 @@ export default function ContactSection() {
             <div>
               <h3 className="heading-sm mb-6 text-gradient">Contact Information</h3>
               <div className="space-y-6">
-                <motion.div 
-                  className="flex items-start gap-4"
+                <motion.a 
+                  href="tel:+917989009317"
+                  className="flex items-start gap-4 transition-all hover:text-primary"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
@@ -84,9 +210,10 @@ export default function ContactSection() {
                     <h4 className="font-semibold">Phone</h4>
                     <p className="text-muted-foreground">+91 7989009317</p>
                   </div>
-                </motion.div>
-                <motion.div 
-                  className="flex items-start gap-4"
+                </motion.a>
+                <motion.a 
+                  href="mailto:phanimathangi98@gmail.com"
+                  className="flex items-start gap-4 transition-all hover:text-primary"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
@@ -97,9 +224,12 @@ export default function ContactSection() {
                     <h4 className="font-semibold">Email</h4>
                     <p className="text-muted-foreground">phanimathangi98@gmail.com</p>
                   </div>
-                </motion.div>
-                <motion.div 
-                  className="flex items-start gap-4"
+                </motion.a>
+                <motion.a 
+                  href="https://linkedin.com/in/phani-mathangi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-4 transition-all hover:text-primary"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
@@ -110,9 +240,12 @@ export default function ContactSection() {
                     <h4 className="font-semibold">LinkedIn</h4>
                     <p className="text-muted-foreground">linkedin/phani-mathangi</p>
                   </div>
-                </motion.div>
-                <motion.div 
-                  className="flex items-start gap-4"
+                </motion.a>
+                <motion.a 
+                  href="https://phani.mathangi.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-4 transition-all hover:text-primary"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
@@ -123,13 +256,13 @@ export default function ContactSection() {
                     <h4 className="font-semibold">Website</h4>
                     <p className="text-muted-foreground">phani.mathangi.in</p>
                   </div>
-                </motion.div>
+                </motion.a>
               </div>
             </div>
 
-            {/* Let's Connect Card - Fixed to avoid collision */}
+            {/* Let's Connect Card - Fixed position to avoid collision */}
             <motion.div 
-              className="mt-8 lg:mt-0"
+              className="mt-12 lg:mt-8"
               whileHover={{ y: -5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >

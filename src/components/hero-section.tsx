@@ -3,6 +3,7 @@ import { ArrowDownIcon, Download } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import profileImg from "/lovable-uploads/db51e5ab-c509-4b43-bf46-417c9d9b26b4.png"
+import devopsImg from "/lovable-uploads/cd934682-52c4-4d11-8536-fcb9e7da77cd.png"
 
 export default function HeroSection() {
   return (
@@ -11,38 +12,73 @@ export default function HeroSection() {
       className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-16"
     >
       <div className="section-container">
-        {/* DevOps Background Animation */}
+        {/* DevOps Infinity Background Animation */}
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-          <svg className="w-full h-full" viewBox="0 0 800 600">
-            {/* DevOps Infinity Symbol Path */}
-            <motion.path
-              d="M250,300 C250,220 300,180 350,180 C400,180 450,220 450,300 C450,380 500,420 550,420 C600,420 650,380 650,300 C650,220 600,180 550,180 C500,180 450,220 450,300 C450,380 400,420 350,420 C300,420 250,380 250,300 Z"
-              fill="none"
-              stroke="url(#devops-gradient)"
-              strokeWidth="6"
-              className="infinity-path"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 5, repeat: Infinity }}
-            />
-            
-            {/* Icons along the path */}
-            <motion.circle cx="350" cy="180" r="10" fill="#0078d7" className="animate-pulse-slow" />
-            <motion.circle cx="550" cy="180" r="10" fill="#36B37E" className="animate-pulse-slow" />
-            <motion.circle cx="250" cy="300" r="10" fill="#6554C0" className="animate-pulse-slow" />
-            <motion.circle cx="650" cy="300" r="10" fill="#FF5630" className="animate-pulse-slow" />
-            <motion.circle cx="350" cy="420" r="10" fill="#0078d7" className="animate-pulse-slow" />
-            <motion.circle cx="550" cy="420" r="10" fill="#36B37E" className="animate-pulse-slow" />
-            
-            {/* Gradient definitions */}
-            <defs>
-              <linearGradient id="devops-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0078d7" />
-                <stop offset="50%" stopColor="#6554C0" />
-                <stop offset="100%" stopColor="#36B37E" />
-              </linearGradient>
-            </defs>
-          </svg>
+          <motion.div 
+            className="w-full h-full flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <div className="relative w-[700px] h-[500px]">
+              {/* DevOps Infinity Symbol */}
+              <motion.div 
+                className="absolute inset-0"
+                animate={{ 
+                  rotate: 360,
+                  scale: [0.95, 1.05, 0.95]
+                }}
+                transition={{ 
+                  rotate: { duration: 60, repeat: Infinity, ease: "linear" },
+                  scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img 
+                    src={devopsImg} 
+                    alt="DevOps Infinity Symbol" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </motion.div>
+              
+              {/* Animated particle dots along the infinity path */}
+              {[0, 60, 120, 180, 240, 300].map((degree, index) => (
+                <motion.div
+                  key={index}
+                  className="absolute top-1/2 left-1/2 h-4 w-4 rounded-full"
+                  initial={{ 
+                    x: Math.cos(degree * (Math.PI / 180)) * 150, 
+                    y: Math.sin(degree * (Math.PI / 180)) * 80 
+                  }}
+                  animate={{
+                    x: [
+                      Math.cos(degree * (Math.PI / 180)) * 150,
+                      Math.cos((degree + 120) * (Math.PI / 180)) * 150,
+                      Math.cos((degree + 240) * (Math.PI / 180)) * 150,
+                      Math.cos(degree * (Math.PI / 180)) * 150
+                    ],
+                    y: [
+                      Math.sin(degree * (Math.PI / 180)) * 80,
+                      Math.sin((degree + 120) * (Math.PI / 180)) * 80,
+                      Math.sin((degree + 240) * (Math.PI / 180)) * 80,
+                      Math.sin(degree * (Math.PI / 180)) * 80
+                    ]
+                  }}
+                  transition={{ 
+                    duration: 8, 
+                    repeat: Infinity, 
+                    ease: "linear",
+                    delay: index * 0.5
+                  }}
+                  style={{ 
+                    backgroundColor: ['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9', '#6554C0'][index],
+                    boxShadow: `0 0 10px 2px ${['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9', '#6554C0'][index]}`
+                  }}
+                />
+              ))}
+            </div>
+          </motion.div>
         </div>
         
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">

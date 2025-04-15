@@ -39,6 +39,9 @@
     --devops-primary: 210 100% 50%;
     --devops-secondary: 262 83% 58%;
     --devops-accent: 199 89% 48%;
+    --devops-green: 145 63% 42%;
+    --devops-orange: 22 90% 57%;
+    --devops-pink: 336 80% 65%;
   }
  
   .dark {
@@ -74,6 +77,9 @@
     --devops-primary: 217 91% 60%;
     --devops-secondary: 263 70% 50%;
     --devops-accent: 196 80% 79%;
+    --devops-green: 145 63% 52%;
+    --devops-orange: 22 90% 67%;
+    --devops-pink: 336 80% 75%;
   }
 }
  
@@ -148,6 +154,14 @@
     box-shadow: 0 4px 20px rgba(0, 100, 255, 0.15);
   }
   
+  /* DevOps grid background */
+  .devops-grid {
+    background-color: transparent;
+    background-image: linear-gradient(#111 1px, transparent 1px),
+                     linear-gradient(90deg, #111 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  
   @keyframes dash {
     to {
       stroke-dashoffset: 0;
@@ -194,5 +208,27 @@
   
   .animate-rotate {
     animation: rotate 20s linear infinite;
+  }
+  
+  /* Particle animations */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: hsl(var(--devops-primary));
+    pointer-events: none;
+  }
+  
+  @keyframes particle-animation {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
   }
 }

@@ -28,7 +28,7 @@ export function ThemeToggle() {
       
       {/* DevOps Infinity Symbol */}
       <motion.div
-        className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none"
+        className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none"
         animate={{
           rotate: [0, 360],
           scale: [0.9, 1.1, 0.9]
@@ -39,16 +39,17 @@ export function ThemeToggle() {
         }}
       >
         <svg
-          width="30"
-          height="16" 
-          viewBox="0 0 30 16"
+          width="24"
+          height="12"
+          viewBox="0 0 24 12"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          className="w-7 h-7"
         >
           <motion.path
-            d="M7,8 C7,4.5 10.5,4.5 12,8 C13.5,11.5 17,11.5 17,8"
+            d="M9,4 C11,0 15,0 17,4 C19,8 23,8 23,4"
             stroke={theme === "dark" ? "#61dafb" : "#0078d7"}
-            strokeWidth="2.5"
+            strokeWidth="2"
             strokeLinecap="round"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -60,9 +61,9 @@ export function ThemeToggle() {
             }}
           />
           <motion.path
-            d="M17,8 C17,4.5 20.5,4.5 22,8 C23.5,11.5 27,11.5 27,8"
+            d="M9,4 C7,8 3,8 1,4 C-1,0 3,0 5,4"
             stroke={theme === "dark" ? "#6554C0" : "#6554C0"}
-            strokeWidth="2.5"
+            strokeWidth="2"
             strokeLinecap="round"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}

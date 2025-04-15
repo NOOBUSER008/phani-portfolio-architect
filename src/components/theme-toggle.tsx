@@ -1,7 +1,7 @@
 
 "use client"
 
-import { Moon, Sun, Waves } from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 import { motion } from "framer-motion"
@@ -25,6 +25,58 @@ export function ThemeToggle() {
             : "radial-gradient(circle at center, rgba(255, 215, 0, 0.6) 0%, rgba(255, 255, 255, 0) 70%)"
         }}
       />
+      
+      {/* DevOps Infinity Symbol */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none"
+        animate={{
+          rotate: [0, 360],
+          scale: [0.9, 1.1, 0.9]
+        }}
+        transition={{
+          rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+          scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+        }}
+      >
+        <svg
+          width="24"
+          height="12"
+          viewBox="0 0 24 12"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-7 h-7"
+        >
+          <motion.path
+            d="M9,4 C11,0 15,0 17,4 C19,8 23,8 23,4"
+            stroke={theme === "dark" ? "#61dafb" : "#0078d7"}
+            strokeWidth="2"
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut"
+            }}
+          />
+          <motion.path
+            d="M9,4 C7,8 3,8 1,4 C-1,0 3,0 5,4"
+            stroke={theme === "dark" ? "#6554C0" : "#6554C0"}
+            strokeWidth="2"
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut",
+              delay: 1
+            }}
+          />
+        </svg>
+      </motion.div>
       
       <motion.div
         initial={false}

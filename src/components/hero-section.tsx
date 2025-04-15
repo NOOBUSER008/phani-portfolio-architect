@@ -1,9 +1,7 @@
-
 import { ArrowDownIcon, Download } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import profileImg from "/lovable-uploads/db51e5ab-c509-4b43-bf46-417c9d9b26b4.png"
-import devopsImg from "/lovable-uploads/cd934682-52c4-4d11-8536-fcb9e7da77cd.png"
 
 export default function HeroSection() {
   return (
@@ -21,9 +19,9 @@ export default function HeroSection() {
             transition={{ duration: 1 }}
           >
             <div className="relative w-[700px] h-[500px]">
-              {/* DevOps Infinity Symbol */}
+              {/* DevOps Infinity Symbol - Created programmatically */}
               <motion.div 
-                className="absolute inset-0"
+                className="absolute inset-0 flex items-center justify-center"
                 animate={{ 
                   rotate: 360,
                   scale: [0.95, 1.05, 0.95]
@@ -33,13 +31,58 @@ export default function HeroSection() {
                   scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
                 }}
               >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <img 
-                    src={devopsImg} 
-                    alt="DevOps Infinity Symbol" 
-                    className="w-full h-full object-contain"
+                <svg 
+                  width="500" 
+                  height="250" 
+                  viewBox="0 0 500 250" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {/* Left loop of infinity */}
+                  <motion.path
+                    d="M125,125 C125,80 175,80 175,125 C175,170 225,170 225,125"
+                    stroke="url(#gradient1)"
+                    strokeWidth="12"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: [0, 1, 0] }}
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      ease: "easeInOut"
+                    }}
                   />
-                </div>
+                  
+                  {/* Right loop of infinity */}
+                  <motion.path
+                    d="M225,125 C225,80 275,80 275,125 C275,170 325,170 325,125"
+                    stroke="url(#gradient2)"
+                    strokeWidth="12"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: [0, 1, 0] }}
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      ease: "easeInOut",
+                      delay: 2.5
+                    }}
+                  />
+                  
+                  {/* DevOps text along the path */}
+                  <defs>
+                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#0078d7" />
+                      <stop offset="100%" stopColor="#36B37E" />
+                    </linearGradient>
+                    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#6554C0" />
+                      <stop offset="100%" stopColor="#FF5630" />
+                    </linearGradient>
+                  </defs>
+                </svg>
               </motion.div>
               
               {/* Animated particle dots along the infinity path */}

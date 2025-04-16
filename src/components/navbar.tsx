@@ -20,6 +20,7 @@ const navItems = [
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState("home")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,44 +28,89 @@ export default function Navbar() {
       if (isScrolled !== scrolled) {
         setScrolled(isScrolled)
       }
+
+      // Update active section based on scroll position
+      const sections = navItems.map(item => item.href.substring(1))
+      const currentSection = sections.find(section => {
+        const element = document.getElementById(section)
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          return rect.top <= 100 && rect.bottom >= 100
+        }
+        return false
+      })
+
+      if (currentSection && currentSection !== activeSection) {
+        setActiveSection(currentSection)
+      }
     }
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [scrolled])
+  }, [scrolled, activeSection])
+
+  // Close mobile menu when clicking a link
+  const handleNavItemClick = () => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false)
+    }
+  }
 
   return (
     <header
       className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300",
+        "fixed top-0 w-full z-50 transition-all duration-500",
         scrolled || isMenuOpen
-          ? "bg-white/80 dark:bg-gray-900/90 backdrop-blur-md shadow-sm"
+          ? "bg-white/90 dark:bg-gray-900/95 backdrop-blur-md shadow-sm"
           : "bg-transparent"
       )}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex-shrink-0 font-bold text-xl">
-            <a href="#home" className="text-foreground">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex-shrink-0 font-bold text-xl"
+          >
+            <a 
+              href="#home" 
+              className="text-foreground transition-all duration-300 hover:scale-105"
+            >
               Phani<span className="text-primary">.</span>
             </a>
-          </div>
+          </motion.div>
 
-          {/* Desktop menu */}
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Desktop menu with active indicator */}
+          <nav className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="text-muted-foreground hover:text-foreground transition-colors font-medium text-sm"
+                onClick={handleNavItemClick}
+                className={cn(
+                  "relative px-2 py-1 text-sm font-medium transition-colors duration-300 hover:text-foreground",
+                  activeSection === item.href.substring(1)
+                    ? "text-foreground"
+                    : "text-muted-foreground"
+                )}
               >
                 {item.name}
+                {activeSection === item.href.substring(1) && (
+                  <motion.div
+                    className="absolute -bottom-1 left-0 h-0.5 w-full bg-primary rounded-full"
+                    layoutId="navIndicator"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
               </a>
             ))}
             <ThemeToggle />
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button with improved animation */}
           <div className="flex items-center md:hidden gap-2">
             <ThemeToggle />
             <Button
@@ -72,36 +118,75 @@ export default function Navbar() {
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-expanded={isMenuOpen}
+              className="relative"
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <AnimatePresence initial={false} mode="wait">
+                {isMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X className="h-5 w-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu className="h-5 w-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
               <span className="sr-only">Toggle menu</span>
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu with improved animation and styling */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
-            className="md:hidden"
+            className="md:hidden overflow-hidden"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
-            <div className="flex flex-col space-y-1 px-4 pt-2 pb-4 bg-background">
-              {navItems.map((item) => (
-                <a
+            <motion.div 
+              className="flex flex-col space-y-0 px-4 pt-2 pb-4 bg-gradient-to-b from-background to-accent/10"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ staggerChildren: 0.05, delayChildren: 0.05 }}
+            >
+              {navItems.map((item, i) => (
+                <motion.div
                   key={item.name}
-                  href={item.href}
-                  className="block px-3 py-2 rounded-md text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
                 >
-                  {item.name}
-                </a>
+                  <a
+                    href={item.href}
+                    className={cn(
+                      "block px-3 py-3 rounded-md transition-all duration-300 hover:bg-accent hover:text-accent-foreground",
+                      activeSection === item.href.substring(1)
+                        ? "bg-accent/50 text-foreground font-medium"
+                        : "text-muted-foreground"
+                    )}
+                    onClick={handleNavItemClick}
+                  >
+                    {item.name}
+                  </a>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,7 +1,7 @@
 
 "use client"
 
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, Infinity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 import { motion } from "framer-motion"
@@ -17,6 +17,7 @@ export function ThemeToggle() {
       className="w-10 h-10 rounded-full transition-all relative overflow-hidden border-primary/20 devops-glow"
       aria-label="Toggle theme"
     >
+      {/* Animated background glow effect */}
       <motion.div
         className="absolute inset-0 opacity-20 pointer-events-none"
         animate={{
@@ -24,6 +25,7 @@ export function ThemeToggle() {
             ? "radial-gradient(circle at center, rgba(0, 100, 255, 0.6) 0%, rgba(0, 0, 50, 0) 70%)" 
             : "radial-gradient(circle at center, rgba(255, 215, 0, 0.6) 0%, rgba(255, 255, 255, 0) 70%)"
         }}
+        transition={{ duration: 0.6 }}
       />
       
       {/* DevOps Infinity Symbol */}
@@ -38,44 +40,7 @@ export function ThemeToggle() {
           scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
         }}
       >
-        <svg
-          width="24"
-          height="12"
-          viewBox="0 0 24 12"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-7 h-7"
-        >
-          <motion.path
-            d="M9,4 C11,0 15,0 17,4 C19,8 23,8 23,4"
-            stroke={theme === "dark" ? "#61dafb" : "#0078d7"}
-            strokeWidth="2"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "easeInOut"
-            }}
-          />
-          <motion.path
-            d="M9,4 C7,8 3,8 1,4 C-1,0 3,0 5,4"
-            stroke={theme === "dark" ? "#6554C0" : "#6554C0"}
-            strokeWidth="2"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "easeInOut",
-              delay: 1
-            }}
-          />
-        </svg>
+        <Infinity className="w-7 h-7 text-primary" />
       </motion.div>
       
       <motion.div
@@ -90,6 +55,7 @@ export function ThemeToggle() {
       >
         <Moon className="h-[1.2rem] w-[1.2rem] text-blue-200" />
       </motion.div>
+      
       <motion.div
         initial={false}
         animate={{ 

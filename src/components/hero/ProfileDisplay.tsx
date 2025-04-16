@@ -19,9 +19,9 @@ export const ProfileDisplay = () => {
         whileHover={{ scale: 1.03 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
-        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full profile-gradient p-1.5 shadow-2xl shadow-primary/20 devops-glow flex items-center justify-center">
-          {/* Enhanced background elements */}
-          <div className="absolute inset-0 rounded-full blur-xl opacity-50 profile-gradient"></div>
+        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full p-1.5 shadow-xl flex items-center justify-center">
+          {/* Dynamic circular elements */}
+          <DynamicCircles />
           
           {/* Animated rings */}
           <motion.div 
@@ -36,21 +36,8 @@ export const ProfileDisplay = () => {
             transition={{ duration: 40, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
           />
           
-          <div className="absolute inset-0 rounded-full animate-pulse-slow opacity-70">
-            <svg viewBox="0 0 200 200" className="w-full h-full">
-              <defs>
-                <linearGradient id="spinnerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor={theme === 'dark' ? "#0078d7" : "#0078d7"} />
-                  <stop offset="50%" stopColor={theme === 'dark' ? "#6554C0" : "#36B37E"} />
-                  <stop offset="100%" stopColor={theme === 'dark' ? "#FF5630" : "#FF5630"} />
-                </linearGradient>
-              </defs>
-              <path d="M100,10 A90,90 0 1,1 99.9,10" fill="none" stroke="url(#spinnerGradient)" strokeWidth="2" strokeDasharray="10 5" />
-            </svg>
-          </div>
-          
           {/* Main content container */}
-          <div className="relative w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden border border-white/10 dark:border-white/5">
+          <div className="relative w-full h-full rounded-full bg-transparent flex items-center justify-center overflow-hidden">
             {/* Circuit pattern background */}
             <motion.div
               className="absolute inset-0 flex items-center justify-center"
@@ -70,112 +57,18 @@ export const ProfileDisplay = () => {
               </svg>
             </motion.div>
             
-            {/* Central DevOps logo */}
+            {/* Creative circle animation at the center */}
             <motion.div 
               className="absolute inset-0 flex items-center justify-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
             >
-              <div className="relative w-3/4 h-3/4 flex items-center justify-center">
-                {/* Infinity symbol */}
-                <motion.div
-                  className="relative w-full h-full"
-                  animate={{ 
-                    scale: [0.95, 1.05, 0.95],
-                  }}
-                  transition={{ 
-                    duration: 8,
-                    repeat: Number.POSITIVE_INFINITY,
-                    repeatType: "loop",
-                    ease: "easeInOut",
-                  }}
-                >
-                  {/* DevOps infinity symbol base */}
-                  <svg 
-                    viewBox="0 0 100 50" 
-                    width="100%" 
-                    height="100%"
-                    className="w-full h-full"
-                  >
-                    <defs>
-                      <linearGradient id="devopsGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor={theme === 'dark' ? "#0078d7" : "#0078d7"} />
-                        <stop offset="50%" stopColor={theme === 'dark' ? "#6554C0" : "#36B37E"} />
-                        <stop offset="100%" stopColor={theme === 'dark' ? "#FF5630" : "#FF5630"} />
-                      </linearGradient>
-                      
-                      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur stdDeviation="2" result="blur" />
-                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                      </filter>
-                    </defs>
-                    
-                    {/* Main infinity path with glow */}
-                    <motion.path
-                      d="M25,25 C25,15 32,15 35,25 C38,35 45,35 45,25 M45,25 C45,15 52,15 55,25 C58,35 65,35 65,25"
-                      fill="none"
-                      stroke="url(#devopsGradient)"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      filter="url(#glow)"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 1 }}
-                      transition={{
-                        pathLength: { duration: 3, delay: 0.2 },
-                        opacity: { duration: 0.5 }
-                      }}
-                    />
-                  </svg>
-                  
-                  {/* Animated particles along infinity path */}
-                  {[0, 0.2, 0.4, 0.6, 0.8].map((offset, i) => (
-                    <motion.div
-                      key={`particle-${i}`}
-                      className="absolute rounded-full"
-                      animate={{
-                        offsetDistance: [offset, offset + 1],
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Number.POSITIVE_INFINITY,
-                        repeatType: "loop",
-                        ease: "linear",
-                      }}
-                      style={{
-                        offsetPath: "path('M25,25 C25,15 32,15 35,25 C38,35 45,35 45,25 M45,25 C45,15 52,15 55,25 C58,35 65,35 65,25')",
-                        offsetRotate: "auto 90deg",
-                        width: (i % 2 === 0 ? 6 : 9) + 'px',
-                        height: (i % 2 === 0 ? 6 : 9) + 'px',
-                        backgroundColor: ['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9'][i],
-                        boxShadow: `0 0 12px 3px ${['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9'][i]}`,
-                      }}
-                    />
-                  ))}
-                </motion.div>
-                
-                {/* DevOps text with professional styling */}
-                <motion.div
-                  className="absolute font-mono font-bold text-4xl sm:text-5xl lg:text-6xl"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ 
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  transition={{
-                    duration: 1,
-                    delay: 0.5
-                  }}
-                >
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-orange-600 dark:from-blue-400 dark:via-purple-400 dark:to-orange-400 filter drop-shadow-md">
-                    DevOps
-                  </span>
-                </motion.div>
-              </div>
+              <CreativeCoreAnimation theme={theme} />
             </motion.div>
             
-            {/* Surrounding icons representing DevOps tools */}
-            <DevOpsToolIcons />
+            {/* Surrounding icons representing tech tools */}
+            <TechToolIcons />
           </div>
         </div>
       </motion.div>
@@ -183,8 +76,209 @@ export const ProfileDisplay = () => {
   );
 };
 
-// DevOps Tool Icons that orbit around the main logo
-const DevOpsToolIcons = () => {
+// Dynamic floating circles in background
+const DynamicCircles = () => {
+  const circleProps = [
+    { size: 60, delay: 0, duration: 8, color: "bg-blue-500/20" },
+    { size: 40, delay: 1, duration: 12, color: "bg-purple-500/15" },
+    { size: 80, delay: 2, duration: 15, color: "bg-cyan-500/10" },
+    { size: 30, delay: 0.5, duration: 10, color: "bg-indigo-500/20" },
+    { size: 50, delay: 1.5, duration: 9, color: "bg-pink-500/15" },
+  ];
+  
+  return (
+    <>
+      {circleProps.map((circle, index) => (
+        <motion.div
+          key={`floating-circle-${index}`}
+          className={`absolute rounded-full ${circle.color} backdrop-blur-md`}
+          style={{
+            width: circle.size,
+            height: circle.size,
+            left: `calc(50% - ${circle.size / 2}px)`,
+            top: `calc(50% - ${circle.size / 2}px)`,
+          }}
+          animate={{
+            x: [0, 30, -20, 10, 0],
+            y: [0, -20, 30, -10, 0],
+            scale: [1, 1.1, 0.9, 1.05, 1],
+          }}
+          transition={{
+            duration: circle.duration,
+            delay: circle.delay,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "loop",
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </>
+  );
+};
+
+// Creative core animation component
+const CreativeCoreAnimation = ({ theme }: { theme: string | undefined }) => {
+  return (
+    <div className="relative w-3/4 h-3/4 flex items-center justify-center">
+      {/* Animated orbit lines */}
+      <svg viewBox="0 0 100 100" width="100%" height="100%" className="absolute">
+        <defs>
+          <linearGradient id="orbitGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={theme === 'dark' ? "#0078d7" : "#0078d7"} />
+            <stop offset="50%" stopColor={theme === 'dark' ? "#6554C0" : "#36B37E"} />
+            <stop offset="100%" stopColor={theme === 'dark' ? "#FF5630" : "#FF5630"} />
+          </linearGradient>
+        </defs>
+        
+        <motion.ellipse
+          cx="50" cy="50" rx="30" ry="45"
+          stroke="url(#orbitGradient)"
+          strokeWidth="0.5"
+          fill="none"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        />
+        
+        <motion.ellipse
+          cx="50" cy="50" rx="45" ry="30"
+          stroke="url(#orbitGradient)"
+          strokeWidth="0.5"
+          fill="none"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        />
+      </svg>
+      
+      {/* Core pulsing circle */}
+      <motion.div
+        className="relative flex items-center justify-center"
+        animate={{ 
+          scale: [0.95, 1.05, 0.95],
+        }}
+        transition={{ 
+          duration: 8,
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "loop",
+          ease: "easeInOut",
+        }}
+      >
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+          <motion.div 
+            className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-card flex items-center justify-center"
+            animate={{ 
+              boxShadow: ["0 0 10px rgba(255,255,255,0.2)", "0 0 20px rgba(255,255,255,0.4)", "0 0 10px rgba(255,255,255,0.2)"],
+            }}
+            transition={{ 
+              duration: 4,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "loop",
+              ease: "easeInOut",
+            }}
+          >
+            <svg width="60%" height="60%" viewBox="0 0 100 100">
+              <defs>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="5" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              
+              {/* Central icon - technologically creative symbol */}
+              <motion.path
+                d="M50,20 L80,50 L50,80 L20,50 Z"
+                fill="none"
+                stroke="url(#orbitGradient)"
+                strokeWidth="2"
+                filter="url(#glow)"
+                animate={{ 
+                  rotate: 360,
+                  strokeDasharray: ["1 10", "12 12", "1 10"],
+                }}
+                transition={{ 
+                  duration: 15, 
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
+              />
+              
+              <motion.circle
+                cx="50" cy="50" r="20"
+                fill="none" 
+                stroke="url(#orbitGradient)"
+                strokeWidth="2"
+                filter="url(#glow)"
+                animate={{ 
+                  r: [15, 25, 15],
+                  strokeDasharray: ["1 10", "12 12", "1 10"],
+                }}
+                transition={{ 
+                  duration: 8, 
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
+              />
+            </svg>
+          </motion.div>
+        </div>
+      </motion.div>
+      
+      {/* Animated particles */}
+      <AnimatedParticles />
+    </div>
+  );
+};
+
+// Animated particles
+const AnimatedParticles = () => {
+  const particles = Array.from({ length: 8 }, (_, i) => i);
+  
+  return (
+    <>
+      {particles.map((i) => {
+        const angle = (i / particles.length) * 2 * Math.PI;
+        const delay = i * 0.2;
+        
+        return (
+          <motion.div
+            key={`particle-${i}`}
+            className="absolute rounded-full h-2 w-2"
+            style={{
+              backgroundColor: ['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9', '#9b87f5', '#33C3F0', '#8B5CF6'][i % 8],
+              boxShadow: `0 0 8px ${['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9', '#9b87f5', '#33C3F0', '#8B5CF6'][i % 8]}`,
+            }}
+            animate={{
+              x: [
+                Math.cos(angle) * 40,
+                Math.cos(angle + Math.PI / 2) * 60,
+                Math.cos(angle + Math.PI) * 40,
+                Math.cos(angle + 3 * Math.PI / 2) * 60,
+                Math.cos(angle + 2 * Math.PI) * 40,
+              ],
+              y: [
+                Math.sin(angle) * 40,
+                Math.sin(angle + Math.PI / 2) * 60,
+                Math.sin(angle + Math.PI) * 40,
+                Math.sin(angle + 3 * Math.PI / 2) * 60,
+                Math.sin(angle + 2 * Math.PI) * 40,
+              ],
+              scale: [1, 1.5, 1, 1.5, 1],
+              opacity: [0.8, 1, 0.8, 1, 0.8],
+            }}
+            transition={{
+              duration: 10,
+              delay,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "linear"
+            }}
+          />
+        );
+      })}
+    </>
+  );
+};
+
+// Tech Tool Icons that orbit around the main logo
+const TechToolIcons = () => {
   // Orbital paths at different distances
   const orbitPaths = [
     { radius: 95, duration: 25, delay: 0, reverse: false },

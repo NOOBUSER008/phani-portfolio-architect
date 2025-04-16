@@ -30,8 +30,8 @@ export default function HeroSection() {
                   scale: [0.95, 1.05, 0.95]
                 }}
                 transition={{ 
-                  rotate: { duration: 60, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+                  rotate: { duration: 60, repeat: Infinity, repeatType: "loop", ease: "linear" },
+                  scale: { duration: 8, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }
                 }}
               >
                 <svg 
@@ -116,6 +116,7 @@ export default function HeroSection() {
                   transition={{ 
                     duration: 8, 
                     repeat: Infinity, 
+                    repeatType: "loop",
                     ease: "linear",
                     delay: index * 0.5
                   }}
@@ -131,7 +132,12 @@ export default function HeroSection() {
                 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: [0.5, 0.8, 0.5], scale: [0.9, 1, 0.9] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ 
+                  duration: 4, 
+                  repeat: Infinity, 
+                  repeatType: "loop", 
+                  ease: "easeInOut" 
+                }}
               >
                 <div className="font-mono font-bold text-3xl md:text-4xl lg:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-blue-300 dark:from-blue-400 dark:via-purple-400 dark:to-blue-200">
                   DevOps
@@ -203,8 +209,13 @@ export default function HeroSection() {
                 <div className="relative w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                    animate={{ rotate: 360 }}
+                    transition={{ 
+                      duration: 40, 
+                      repeat: Infinity, 
+                      repeatType: "loop", 
+                      ease: "linear" 
+                    }}
                   >
                     {/* DevOps infinity background pattern */}
                     <svg width="100%" height="100%" viewBox="0 0 200 200" opacity="0.1">
@@ -226,6 +237,7 @@ export default function HeroSection() {
                     transition={{ 
                       duration: 8,
                       repeat: Infinity,
+                      repeatType: "loop",
                       ease: "easeInOut",
                     }}
                   >
@@ -245,9 +257,9 @@ export default function HeroSection() {
                         animate={{ pathLength: 1 }}
                         transition={{
                           duration: 3,
-                          ease: "easeInOut",
                           repeat: Infinity,
                           repeatType: "loop",
+                          ease: "easeInOut",
                           repeatDelay: 1
                         }}
                       />
@@ -265,25 +277,19 @@ export default function HeroSection() {
                       <motion.div
                         key={`particle-${i}`}
                         className="absolute rounded-full"
-                        style={{
-                          width: (i % 2 === 0 ? 5 : 7) + 'px',
-                          height: (i % 2 === 0 ? 5 : 7) + 'px',
-                          backgroundColor: ['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9'][i],
-                          boxShadow: `0 0 8px 2px ${['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9'][i]}`,
-                        }}
                         animate={{
                           offsetDistance: [offset, offset + 1],
                         }}
                         transition={{
                           duration: 3,
                           repeat: Infinity,
+                          repeatType: "loop",
                           ease: "linear",
                           delay: i * 0.2
                         }}
                         style={{
                           offsetPath: "path('M25,25 C25,15 32,15 35,25 C38,35 45,35 45,25 M45,25 C45,15 52,15 55,25 C58,35 65,35 65,25')",
                           offsetRotate: "auto 90deg",
-                          // Make sure other styles from above are preserved
                           width: (i % 2 === 0 ? 5 : 7) + 'px',
                           height: (i % 2 === 0 ? 5 : 7) + 'px',
                           backgroundColor: ['#0078d7', '#6554C0', '#36B37E', '#FF5630', '#00B8D9'][i],
@@ -303,6 +309,7 @@ export default function HeroSection() {
                     transition={{
                       duration: 4,
                       repeat: Infinity,
+                      repeatType: "loop",
                       ease: "easeInOut"
                     }}
                   >
@@ -314,32 +321,52 @@ export default function HeroSection() {
               {/* Tech icons floating around profile */}
               <motion.div 
                 className="absolute top-0 left-1/4 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 dark:bg-blue-500 text-white p-2 rounded-full shadow-lg"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                animate={{ y: [-10, 0, -10] }}
+                transition={{ 
+                  repeat: Infinity, 
+                  repeatType: "loop", 
+                  duration: 3, 
+                  ease: "easeInOut" 
+                }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M7 7h10" /><path d="M10 7v10" /><path d="M7 17h10" /></svg>
               </motion.div>
               
               <motion.div 
                 className="absolute bottom-10 right-0 transform translate-x-1/2 bg-purple-600 dark:bg-purple-500 text-white p-2 rounded-full shadow-lg"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                animate={{ y: [10, 0, 10] }}
+                transition={{ 
+                  repeat: Infinity,
+                  repeatType: "loop", 
+                  duration: 4, 
+                  ease: "easeInOut" 
+                }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" /></svg>
               </motion.div>
               
               <motion.div 
                 className="absolute top-1/3 -left-4 transform -translate-y-1/2 bg-green-600 dark:bg-green-500 text-white p-2 rounded-full shadow-lg"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                animate={{ y: [10, 0, 10] }}
+                transition={{ 
+                  repeat: Infinity, 
+                  repeatType: "loop",
+                  duration: 5, 
+                  ease: "easeInOut" 
+                }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 10v12" /><path d="M15 10v12" /><path d="M11 10v12" /><path d="M19 10v12" /><path d="M3 10v12" /><rect width="18" height="5" x="3" y="5" rx="2" /><path d="M3 10h18" /></svg>
               </motion.div>
               
               <motion.div 
                 className="absolute top-2/3 right-0 transform translate-x-1/2 bg-orange-600 dark:bg-orange-500 text-white p-2 rounded-full shadow-lg"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
+                animate={{ y: [-10, 0, -10] }}
+                transition={{ 
+                  repeat: Infinity, 
+                  repeatType: "loop",
+                  duration: 4.5, 
+                  ease: "easeInOut" 
+                }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2" /><rect width="20" height="8" x="2" y="14" rx="2" ry="2" /><line x1="6" x2="6" y1="6" y2="6" /><line x1="6" x2="6" y1="18" y2="18" /></svg>
               </motion.div>
@@ -360,7 +387,11 @@ export default function HeroSection() {
             <span className="text-sm mb-2">Scroll Down</span>
             <motion.div
               animate={{ y: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
+              transition={{ 
+                repeat: Infinity, 
+                repeatType: "loop", 
+                duration: 1.5 
+              }}
             >
               <ArrowDownIcon className="h-5 w-5" />
             </motion.div>

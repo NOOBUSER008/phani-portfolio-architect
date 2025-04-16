@@ -36,8 +36,8 @@ export function ThemeToggle() {
           scale: [0.9, 1.1, 0.9]
         }}
         transition={{
-          rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-          scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+          rotate: { duration: 20, repeat: Infinity, repeatType: "loop", ease: "linear" },
+          scale: { duration: 8, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }
         }}
       >
         <Infinity className="w-7 h-7 text-primary" />
@@ -84,6 +84,7 @@ export function ThemeToggle() {
           transition={{ 
             duration: 2,
             repeat: Infinity,
+            repeatType: "loop",
             delay: i * 0.15
           }}
         />
@@ -104,6 +105,7 @@ export function ThemeToggle() {
           transition={{ 
             duration: 2 + Math.random() * 2,
             repeat: Infinity,
+            repeatType: "loop",
             delay: i * 0.3
           }}
         />

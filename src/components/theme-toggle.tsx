@@ -1,7 +1,7 @@
 
 "use client"
 
-import { Moon, Sun, Infinity } from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 import { motion } from "framer-motion"
@@ -36,11 +36,13 @@ export function ThemeToggle() {
           scale: [0.9, 1.1, 0.9]
         }}
         transition={{
-          rotate: { duration: 20, repeat: Infinity, repeatType: "loop", ease: "linear" },
-          scale: { duration: 8, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }
+          rotate: { duration: 20, repeat: Number.POSITIVE_INFINITY, repeatType: "loop", ease: "linear" },
+          scale: { duration: 8, repeat: Number.POSITIVE_INFINITY, repeatType: "loop", ease: "easeInOut" }
         }}
       >
-        <Infinity className="w-7 h-7 text-primary" />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
+        </svg>
       </motion.div>
       
       <motion.div
@@ -77,13 +79,13 @@ export function ThemeToggle() {
           initial={false}
           animate={{
             opacity: theme === "light" ? [0.4, 1, 0.4] : 0,
-            x: theme === "light" ? `${Math.cos(degree * Math.PI / 180) * 14}px` : 0,
-            y: theme === "light" ? `${Math.sin(degree * Math.PI / 180) * 14}px` : 0,
+            x: theme === "light" ? `${Math.cos(degree * Math.PI / 180) * 14}px` : "0px",
+            y: theme === "light" ? `${Math.sin(degree * Math.PI / 180) * 14}px` : "0px",
             scale: theme === "light" ? [0.8, 1.2, 0.8] : 0
           }}
           transition={{ 
             duration: 2,
-            repeat: Infinity,
+            repeat: Number.POSITIVE_INFINITY,
             repeatType: "loop",
             delay: i * 0.15
           }}
@@ -98,13 +100,13 @@ export function ThemeToggle() {
           initial={false}
           animate={{
             opacity: theme === "dark" ? [0.2, 1, 0.2] : 0,
-            x: theme === "dark" ? `${Math.random() * 14 - 7}px` : 0,
-            y: theme === "dark" ? `${Math.random() * 14 - 7}px` : 0,
+            x: theme === "dark" ? `${Math.random() * 14 - 7}px` : "0px",
+            y: theme === "dark" ? `${Math.random() * 14 - 7}px` : "0px",
             scale: theme === "dark" ? [0.8, 1.2, 0.8] : 0
           }}
           transition={{ 
             duration: 2 + Math.random() * 2,
-            repeat: Infinity,
+            repeat: Number.POSITIVE_INFINITY,
             repeatType: "loop",
             delay: i * 0.3
           }}

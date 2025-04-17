@@ -20,7 +20,7 @@ export const ProfileDisplay = () => {
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex items-center justify-center">
-          {/* Dynamic pulsing outer border */}
+          {/* Dynamic pulsing outer border with rotation */}
           <DynamicOuterBorder />
           
           {/* Professional tech orbital background */}
@@ -40,12 +40,13 @@ export const ProfileDisplay = () => {
   );
 };
 
-// Dynamic pulsing outer border with movement
+// Dynamic pulsing outer border with rotation
 const DynamicOuterBorder = () => {
   return (
     <motion.div 
       className="absolute -inset-2 rounded-full"
       animate={{
+        rotate: 360,
         boxShadow: [
           "0 0 0 4px rgba(59,130,246,0.3)",
           "0 0 0 6px rgba(59,130,246,0.2)",
@@ -53,10 +54,18 @@ const DynamicOuterBorder = () => {
         ],
       }}
       transition={{ 
-        duration: 3,
-        repeat: Number.POSITIVE_INFINITY,
-        repeatType: "loop",
-        ease: "easeInOut",
+        rotate: {
+          duration: 30,
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "loop",
+          ease: "linear",
+        },
+        boxShadow: { 
+          duration: 3,
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "loop",
+          ease: "easeInOut",
+        }
       }}
     >
       {/* Animated gradient border */}
@@ -146,7 +155,7 @@ const OrbitalBackground = () => {
   );
 };
 
-// Core tech visualization
+// Core tech visualization - Improved DevOps Infinity Symbol
 const CoreElement = ({ theme }: { theme: string | undefined }) => {
   return (
     <motion.div 
@@ -174,27 +183,74 @@ const CoreElement = ({ theme }: { theme: string | undefined }) => {
             ease: "easeInOut",
           }}
         >
-          {/* DevOps Icon */}
+          {/* DevOps Infinity Symbol */}
           <motion.div 
             className="relative w-full h-full flex items-center justify-center"
             animate={{ rotate: 360 }}
             transition={{ duration: 40, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
           >
+            {/* Main SVG Canvas */}
             <svg viewBox="0 0 100 100" width="80%" height="80%" className="opacity-80">
               <defs>
                 <linearGradient id="techGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor={theme === 'dark' ? "#3B82F6" : "#2563EB"} />
-                  <stop offset="100%" stopColor={theme === 'dark' ? "#8B5CF6" : "#6366F1"} />
+                  <stop offset="0%" stopColor={theme === 'dark' ? "#3B82F6" : "#2563EB"}>
+                    <animate 
+                      attributeName="stopColor" 
+                      values={theme === 'dark' ? "#3B82F6;#60A5FA;#3B82F6" : "#2563EB;#3B82F6;#2563EB"} 
+                      dur="6s" 
+                      repeatCount="indefinite" 
+                    />
+                  </stop>
+                  <stop offset="100%" stopColor={theme === 'dark' ? "#8B5CF6" : "#6366F1"}>
+                    <animate 
+                      attributeName="stopColor" 
+                      values={theme === 'dark' ? "#8B5CF6;#A78BFA;#8B5CF6" : "#6366F1;#818CF8;#6366F1"} 
+                      dur="6s" 
+                      repeatCount="indefinite" 
+                    />
+                  </stop>
                 </linearGradient>
               </defs>
               
-              {/* Infinity symbol for DevOps */}
+              {/* Infinity Symbol for DevOps - Proper infinity shape */}
               <motion.path 
-                d="M35,50 C35,42 40,35 50,35 C60,35 65,42 65,50 C65,58 60,65 50,65 C40,65 35,58 35,50 Z M65,50 C65,42 70,35 80,35 C90,35 95,42 95,50 C95,58 90,65 80,65 C70,65 65,58 65,50 Z M35,50 C35,58 30,65 20,65 C10,65 5,58 5,50 C5,42 10,35 20,35 C30,35 35,42 35,50 Z"
+                d="M30,50 C30,38 38,30 50,30 C62,30 70,38 70,50 C70,62 62,70 50,70 C38,70 30,62 30,50 Z M70,50 C70,38 78,30 90,30 C102,30 110,38 110,50 C110,62 102,70 90,70 C78,70 70,62 70,50 Z M30,50 C30,62 22,70 10,70 C-2,70 -10,62 -10,50 C-10,38 -2,30 10,30 C22,30 30,38 30,50 Z"
                 fill="none" 
                 stroke="url(#techGradient)" 
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 0 }}
+                animate={{ 
+                  pathLength: 1,
+                  strokeDasharray: "1, 0",
+                }}
+                transition={{
+                  duration: 2.5,
+                  ease: "easeInOut",
+                }}
+              />
+              
+              {/* Animated dot traveling along the infinity path */}
+              <motion.circle 
+                r="2" 
+                fill="url(#techGradient)"
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: 1,
+                  offsetDistance: "100%"
+                }}
+                style={{
+                  offsetPath: "path('M30,50 C30,38 38,30 50,30 C62,30 70,38 70,50 C70,62 62,70 50,70 C38,70 30,62 30,50 Z M70,50 C70,38 78,30 90,30 C102,30 110,38 110,50 C110,62 102,70 90,70 C78,70 70,62 70,50 Z M30,50 C30,62 22,70 10,70 C-2,70 -10,62 -10,50 C-10,38 -2,30 10,30 C22,30 30,38 30,50 Z')",
+                  offsetRotate: "auto"
+                }}
+                transition={{
+                  offsetDistance: {
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }
+                }}
               />
               
               {/* Cloud icon */}

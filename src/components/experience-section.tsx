@@ -19,8 +19,8 @@ export default function ExperienceSection() {
         </div>
 
         <div className="relative max-w-3xl mx-auto">
-          {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 h-full w-1 bg-border"></div>
+          {/* Timeline line - Improved visibility for light mode */}
+          <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 h-full w-1.5 bg-primary/30 dark:bg-border shadow-[0_0_8px_rgba(59,130,246,0.3)]"></div>
           
           {/* Experience items */}
           {siteConfig.experience.map((item, index) => (
@@ -33,8 +33,24 @@ export default function ExperienceSection() {
               viewport={{ once: true, margin: "-100px" }}
             >
               <div className={`flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center`}>
-                {/* Timeline dot */}
-                <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-primary border-4 border-background z-10"></div>
+                {/* Timeline dot - Enhanced visibility */}
+                <motion.div 
+                  className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-primary border-4 border-background z-10"
+                  whileInView={{
+                    boxShadow: [
+                      "0 0 0 0 rgba(59,130,246,0.4)",
+                      "0 0 0 10px rgba(59,130,246,0)",
+                      "0 0 0 0 rgba(59,130,246,0.4)"
+                    ]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: 3,
+                    repeatType: "loop",
+                    repeatDelay: 1
+                  }}
+                  viewport={{ once: true }}
+                />
                 
                 {/* Content card */}
                 <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>

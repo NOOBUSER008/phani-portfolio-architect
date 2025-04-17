@@ -1,96 +1,13 @@
 
 import { motion } from "framer-motion";
-import { 
-  Cloud, Database, GitBranchPlus, Code, MonitorCheck, 
-  ShieldCheck, ServerCog, Terminal, FileCode, AlertTriangle 
-} from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { siteConfig } from "@/config/site-config";
 
-// Reorganized skills by category with icons for better visual recognition
-const skillsCategories = [
-  {
-    name: "Cloud & Infrastructure",
-    icon: <Cloud className="h-6 w-6 text-devops-blue" />,
-    skills: [
-      { name: "AWS", level: "Expert" },
-      { name: "Azure", level: "Intermediate" },
-      { name: "EC2", level: "Expert" },
-      { name: "Lambda", level: "Expert" },
-      { name: "S3", level: "Expert" },
-      { name: "CloudFront", level: "Advanced" },
-      { name: "API Gateway", level: "Advanced" },
-      { name: "RDS", level: "Advanced" },
-      { name: "LightSail", level: "Intermediate" },
-    ]
-  },
-  {
-    name: "Containerization & Orchestration",
-    icon: <ServerCog className="h-6 w-6 text-devops-green" />,
-    skills: [
-      { name: "Docker", level: "Expert" },
-      { name: "Kubernetes (EKS)", level: "Advanced" },
-      { name: "ECS", level: "Expert" },
-    ]
-  },
-  {
-    name: "CI/CD & Version Control",
-    icon: <GitBranchPlus className="h-6 w-6 text-devops-orange" />,
-    skills: [
-      { name: "GitHub Actions", level: "Expert" },
-      { name: "Jenkins", level: "Advanced" },
-      { name: "Git", level: "Expert" },
-      { name: "GitHub", level: "Expert" },
-    ]
-  },
-  {
-    name: "Infrastructure as Code",
-    icon: <FileCode className="h-6 w-6 text-devops-purple" />,
-    skills: [
-      { name: "Terraform", level: "Expert" },
-      { name: "CloudFormation", level: "Advanced" },
-    ]
-  },
-  {
-    name: "Monitoring & Logging",
-    icon: <MonitorCheck className="h-6 w-6 text-devops-lightblue" />,
-    skills: [
-      { name: "Prometheus", level: "Advanced" },
-      { name: "Grafana", level: "Advanced" },
-      { name: "CloudWatch", level: "Expert" },
-      { name: "PagerDuty", level: "Intermediate" },
-    ]
-  },
-  {
-    name: "Security & Compliance",
-    icon: <ShieldCheck className="h-6 w-6 text-destructive" />,
-    skills: [
-      { name: "AWS Security Hub", level: "Advanced" },
-      { name: "Microsoft Sentinel", level: "Intermediate" },
-      { name: "Defender for Cloud", level: "Intermediate" },
-      { name: "Wazuh", level: "Intermediate" },
-      { name: "Prowler", level: "Advanced" },
-      { name: "ISO 27001, PCI-DSS, GDPR", level: "Advanced" },
-    ]
-  },
-  {
-    name: "Scripting & Development",
-    icon: <Terminal className="h-6 w-6 text-primary" />,
-    skills: [
-      { name: "Bash", level: "Expert" },
-      { name: "Python", level: "Advanced" },
-    ]
-  },
-  {
-    name: "Operating Systems",
-    icon: <Code className="h-6 w-6 text-devops-navy" />,
-    skills: [
-      { name: "Linux (Amazon Linux, Ubuntu, RHEL)", level: "Expert" },
-      { name: "Windows", level: "Advanced" },
-    ]
-  }
-];
+// Type for dynamically rendering Lucide icons
+type IconName = keyof typeof LucideIcons;
 
 // Function to determine skill level badge color
-const getSkillLevelColor = (level) => {
+const getSkillLevelColor = (level: string) => {
   switch(level) {
     case "Expert":
       return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
@@ -104,6 +21,9 @@ const getSkillLevelColor = (level) => {
 };
 
 export default function SkillsSection() {
+  // If the section is disabled in config, don't render anything
+  if (!siteConfig.sections.showSkills) return null;
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -141,33 +61,38 @@ export default function SkillsSection() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {skillsCategories.map((category, index) => (
-            <motion.div
-              key={category.name}
-              className={`p-6 rounded-xl border ${index % 2 === 0 ? 'bg-card' : 'bg-secondary/20'}`}
-              variants={itemVariants}
-              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  {category.icon}
+          {siteConfig.skillsCategories.map((category, index) => {
+            // Dynamically get the correct Lucide icon component
+            const IconComponent = LucideIcons[category.icon as IconName];
+            
+            return (
+              <motion.div
+                key={category.name}
+                className={`p-6 rounded-xl border ${index % 2 === 0 ? 'bg-card' : 'bg-secondary/20'}`}
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    {IconComponent && <IconComponent className={category.iconColor} width={24} height={24} />}
+                  </div>
+                  <h3 className="heading-sm">{category.name}</h3>
                 </div>
-                <h3 className="heading-sm">{category.name}</h3>
-              </div>
-              
-              <div className="flex flex-wrap gap-2 mt-4">
-                {category.skills.map((skill) => (
-                  <span 
-                    key={skill.name}
-                    className={`text-xs px-2 py-1 rounded-full ${getSkillLevelColor(skill.level)} inline-flex items-center gap-1`}
-                  >
-                    {skill.name}
-                    <span className="w-2 h-2 rounded-full bg-current opacity-70 ml-1"></span>
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {category.skills.map((skill) => (
+                    <span 
+                      key={skill.name}
+                      className={`text-xs px-2 py-1 rounded-full ${getSkillLevelColor(skill.level)} inline-flex items-center gap-1`}
+                    >
+                      {skill.name}
+                      <span className="w-2 h-2 rounded-full bg-current opacity-70 ml-1"></span>
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

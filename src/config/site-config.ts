@@ -21,8 +21,9 @@ export const siteConfig = {
     colorScheme: "blue", // Options: "blue", "purple", "teal", "green", "orange"
   },
   
-  // Section visibility
+  // Section visibility and order configuration
   sections: {
+    // Visibility toggles
     showHero: true,
     showAbout: true,
     showSkills: true,
@@ -32,12 +33,47 @@ export const siteConfig = {
     showAchievements: true,
     showResume: true,
     showContact: true,
+    
+    // Section order - array of section IDs in the order they should appear
+    // This allows reordering sections without changing component code
+    order: [
+      "hero",
+      "about",
+      "skills", 
+      "experience",
+      "projects",
+      "certifications", 
+      "resume",
+      "contact"
+    ]
   },
 
   // About section
   about: {
     title: "About Me",
     description: "Experienced DevOps Engineer with 4+ years, specializing in end-to-end infrastructure management, automation, and cloud security. Skilled in CI/CD pipeline development, deployment automation, and containerized workloads. Designed cloud architectures on AWS with a focus on cost optimization, scalability, and high availability. Knowledgeable in compliance standards enabling secure and audit-ready DevOps practices.",
+    education: {
+      degree: "B. Tech",
+      institution: "VR Siddhartha Engineering college",
+      period: "Completed",
+    },
+    highlights: [
+      {
+        title: "CI/CD Expertise",
+        description: "Streamlined deployment processes with automated workflows using GitHub Actions and Jenkins.",
+        icon: "Code" // Corresponds to Lucide icon names
+      },
+      {
+        title: "Cloud Architecture",
+        description: "Designed resilient, secure cloud infrastructure focusing on cost optimization and high availability.",
+        icon: "Cloud"
+      },
+      {
+        title: "Container Orchestration",
+        description: "Managed containerized applications through Docker, Kubernetes (EKS), and ECS.",
+        icon: "ServerCog"
+      }
+    ]
   },
   
   // Skills categories with icons
@@ -138,29 +174,37 @@ export const siteConfig = {
       company: "Caretcloud Technologies",
       position: "Senior DevOps Engineer",
       period: "Sep 2023 - Present",
+      current: true,
       description: "Leading DevOps practices, implementing cloud infrastructure, and ensuring CI/CD automation."
     },
     {
       company: "Wipro",
       position: "DevOps Engineer",
       period: "April 2022 - Feb 2023",
+      current: false,
       description: "Managed deployment pipelines and infrastructure for enterprise clients."
     },
     {
       company: "Tech well IT solutions",
       position: "Build and Release Engineer",
       period: "Jan 2020 - March 2022",
+      current: false,
       description: "Handled build and deployment processes, ensuring smooth delivery of software products."
     }
   ],
   
-  // Education
-  education: [
-    {
-      degree: "B. Tech",
-      institution: "VR Siddhartha Engineering college",
-      period: "Completed",
-    }
+  // Key responsibilities for experience section
+  keyResponsibilities: [
+    "Infrastructure management and automation",
+    "CI/CD pipeline development",
+    "Cloud architecture design",
+    "Containerization with Docker and Kubernetes",
+    "Security implementation and compliance",
+    "Cost optimization strategies",
+    "High-availability systems design",
+    "Monitoring and alerting setup",
+    "Infrastructure as Code development",
+    "Team collaboration and knowledge sharing"
   ],
   
   // Projects
@@ -217,18 +261,24 @@ export const siteConfig = {
       name: "AWS Certified Solutions Architect – Associate",
       issuer: "Amazon Web Services",
       date: "2022",
+      credentialId: "AWS-1234567",
+      url: "https://www.credly.com/badges/example",
       description: "Validates the ability to design and implement distributed systems on AWS"
     },
     {
       name: "Terraform Associate",
       issuer: "HashiCorp",
       date: "2022",
+      credentialId: "HC-1234567",
+      url: "https://www.credly.com/badges/example",
       description: "Validates understanding of infrastructure as code using HashiCorp Terraform"
     },
     {
       name: "Microsoft Certified: Azure Administrator Associate",
       issuer: "Microsoft",
       date: "2023",
+      credentialId: "MS-7654321",
+      url: "https://www.credly.com/badges/example",
       description: "Validates the skills to implement, manage, and monitor an organization's Azure environment"
     }
   ],
@@ -251,4 +301,31 @@ export const siteConfig = {
       date: "2022"
     }
   ],
+  
+  // Resume section
+  resume: {
+    title: "Resume",
+    subtitle: "Download my resume to learn more about my qualifications and experience"
+  },
+  
+  // Contact section
+  contactSection: {
+    title: "Get In Touch",
+    subtitle: "Feel free to reach out to discuss opportunities or collaborations",
+    formTitle: "Send a Message",
+    formLabels: {
+      name: "Full Name*",
+      email: "Email*",
+      subject: "Subject",
+      message: "Message*",
+      submitButton: "Send Message"
+    },
+    connectionCard: {
+      title: "Let's Connect",
+      description: "I'm always open to discussing new projects, opportunities, or partnerships."
+    },
+    contactInfo: {
+      title: "Contact Information"
+    }
+  }
 }

@@ -1,54 +1,11 @@
 
-import { motion } from "framer-motion"
-
-const projectsData = [
-  {
-    name: "redOrange.ai",
-    role: "Senior DevOps Engineer",
-    description: "RedOrange.ai is an AI-powered SaaS security and risk management platform designed to protect SaaS applications from cyber threats and ensure compliance by automating evidence collection and delivering real-time security and compliance. It focuses on SaaS security, user access management, and regulatory compliance.",
-    responsibilities: [
-      "Architected and deployed multi-environment AWS infrastructure (dev, staging, production) with a strong focus on cost optimization, high availability, and security best practices.",
-      "Developed CI/CD pipelines using GitHub Actions, reducing deployment time and ensuring consistent releases.",
-      "Created fully automated Terraform modules to provision the complete infrastructure within 2 hours in any AWS region, enabling multi-region deployments to meet compliance and data residency requirements.",
-      "Integrated AWS Global Accelerator and CloudFront with ALB to significantly reduce product access latency across geographic regions.",
-      "Implemented Lambda-based traffic handling to offload backend services, resulting in improved performance and reduced compute costs.",
-      "Automated the shutdown/startup of dev and staging environments during idle periods, saving up to 40% in infrastructure costs.",
-      "Configured long-term log storage strategy by archiving logs over 90 days to S3 Glacier, reducing CloudWatch retention costs.",
-      "Enhanced VPC architecture by implementing VPC endpoints for internal services, improving security posture and minimizing data transfer costs.",
-      "Configured S3 and CloudFront for secure, high-speed static website hosting, improving global content delivery.",
-      "Managed containerized microservices on ECS across environments, using internal/external ALBs for controlled traffic routing and isolation.",
-      "Built a robust monitoring and alerting stack using CloudWatch, AWS Managed Grafana, and PagerDuty, ensuring maximum uptime and fast issue resolution."
-    ]
-  },
-  {
-    name: "Lisha.ai",
-    role: "DevOps Engineer",
-    description: "Lisha.ai is an AI-powered compliance assistant that automates evidence collection, detects compliance drift in real time, and streamlines continuous compliance across cloud and SaaS environments.",
-    responsibilities: [
-      "Engineered secure, multi-tenant AWS infrastructure for Lisha.ai's compliance automation platform, ensuring high availability, data isolation, and audit readiness.",
-      "Built and maintained CI/CD pipelines using GitHub Actions, enabling rapid deployment of microservices and infrastructure components.",
-      "Deployed and managed Auto Scaling EC2 instances, including GPU-based workloads, to support compute-intensive AI functions with zero downtime.",
-      "Managed ECS-based containerized services for OpenAI and Gemini AI, isolated with private load balancers for internal-only access and strict traffic segmentation.",
-      "Developed centralized audit logging and artifact storage using S3, IAM access policies, and lifecycle rules, ensuring long-term retention and controlled access."
-    ]
-  },
-  {
-    name: "Flash, FDA/FDI (BNP Paribas)",
-    role: "DevOps Engineer",
-    description: "BNP Paribas, a leading French banking group and the world's 8th largest by assets, operates in 72 countries, offering retail and investment banking services.",
-    responsibilities: [
-      "Deployed Java-based applications across IST, UAT, and PPD environments, ensuring release consistency and minimal downtime.",
-      "Collaborated with multiple development teams to support simultaneous feature releases across environments.",
-      "Installed, configured, and monitored application servers and supporting infrastructure, including patching, upgrades, and performance tuning.",
-      "Created Jenkins pipeline jobs tailored to application stack requirements, streamlining the build and release process.",
-      "Integrated SonarQube for static code analysis to ensure code quality and compliance during build stages.",
-      "Deployed applications on Amazon EKS, including updating Kubernetes manifests, modifying Helm charts, and troubleshooting pod-level deployment issues during release activities.",
-      "Actively supported weekend production deployments, coordinating closely with onsite teams to validate rollout success and rollback readiness."
-    ]
-  }
-];
+import { motion } from "framer-motion";
+import { siteConfig } from "@/config/site-config";
 
 export default function ProjectsSection() {
+  // If the section is disabled in config, don't render anything
+  if (!siteConfig.sections.showProjects) return null;
+
   return (
     <section id="projects" className="py-16 md:py-24">
       <div className="section-container">
@@ -61,7 +18,7 @@ export default function ProjectsSection() {
         </div>
         
         <div className="space-y-16">
-          {projectsData.map((project, index) => (
+          {siteConfig.projects.map((project, index) => (
             <motion.div 
               key={index} 
               className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-start`}
@@ -93,7 +50,7 @@ export default function ProjectsSection() {
                   
                   <h4 className="font-semibold mb-2">Key Responsibilities:</h4>
                   <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                    {project.responsibilities.slice(0, 5).map((item, i) => (
+                    {project.achievements.slice(0, 5).map((item, i) => (
                       <li key={i}>{item}</li>
                     ))}
                   </ul>

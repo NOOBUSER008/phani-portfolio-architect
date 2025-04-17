@@ -6,8 +6,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Linkedin, Send, Check } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { siteConfig } from "@/config/site-config";
 
 export default function ContactSection() {
+  // If the section is disabled in config, don't render anything
+  if (!siteConfig.sections.showContact) return null;
+  
   const [isSending, setIsSending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -38,7 +42,6 @@ export default function ContactSection() {
     setIsSending(true);
     
     // This would be replaced with your actual email service integration
-    // Example with EmailJS or a similar service
     try {
       // Simulate sending email - in a real app, you'd use a service like EmailJS, Resend, etc.
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -54,7 +57,7 @@ export default function ContactSection() {
       `;
       
       // Open the user's email client as a fallback method
-      window.open(`mailto:phanimathangi98@gmail.com?subject=${encodeURIComponent(formData.subject || 'Contact from Portfolio')}&body=${encodeURIComponent(emailBody)}`);
+      window.open(`mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(formData.subject || 'Contact from Portfolio')}&body=${encodeURIComponent(emailBody)}`);
       
       setIsSuccess(true);
       toast({
@@ -85,14 +88,16 @@ export default function ContactSection() {
     }
   };
 
+  const contactInfo = siteConfig.contactSection;
+
   return (
     <section id="contact" className="py-16 md:py-24 bg-blue-50/50 dark:bg-blue-900/10">
       <div className="section-container">
         <div className="text-center space-y-2 mb-12">
-          <h2 className="heading-lg">Get In Touch</h2>
+          <h2 className="heading-lg">{contactInfo.title}</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
           <p className="text-muted-foreground max-w-2xl mx-auto mt-4">
-            Feel free to reach out to discuss opportunities or collaborations
+            {contactInfo.subtitle}
           </p>
         </div>
 
@@ -105,12 +110,12 @@ export default function ContactSection() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h3 className="heading-sm mb-6 text-gradient">Send a Message</h3>
+            <h3 className="heading-sm mb-6 text-gradient">{contactInfo.formTitle}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-sm font-medium">
-                    Full Name*
+                    {contactInfo.formLabels.name}
                   </label>
                   <Input 
                     id="name" 
@@ -124,7 +129,7 @@ export default function ContactSection() {
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium">
-                    Email*
+                    {contactInfo.formLabels.email}
                   </label>
                   <Input 
                     id="email" 
@@ -140,7 +145,7 @@ export default function ContactSection() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="subject" className="text-sm font-medium">
-                  Subject
+                  {contactInfo.formLabels.subject}
                 </label>
                 <Input 
                   id="subject" 
@@ -153,7 +158,7 @@ export default function ContactSection() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="message" className="text-sm font-medium">
-                  Message*
+                  {contactInfo.formLabels.message}
                 </label>
                 <Textarea 
                   id="message" 
@@ -178,7 +183,7 @@ export default function ContactSection() {
                   </>
                 ) : (
                   <>
-                    <span>{isSending ? "Sending..." : "Send Message"}</span>
+                    <span>{isSending ? "Sending..." : contactInfo.formLabels.submitButton}</span>
                     <Send className={`ml-2 h-4 w-4 transition-transform ${!isSending && "group-hover:translate-x-1"}`} />
                   </>
                 )}
@@ -195,10 +200,10 @@ export default function ContactSection() {
             viewport={{ once: true }}
           >
             <div>
-              <h3 className="heading-sm mb-6 text-gradient">Contact Information</h3>
+              <h3 className="heading-sm mb-6 text-gradient">{contactInfo.contactInfo.title}</h3>
               <div className="space-y-6">
                 <motion.a 
-                  href="tel:+917989009317"
+                  href={`tel:${siteConfig.contact.phone}`}
                   className="flex items-start gap-4 transition-all hover:text-primary"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
@@ -208,11 +213,11 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold">Phone</h4>
-                    <p className="text-muted-foreground">+91 7989009317</p>
+                    <p className="text-muted-foreground">{siteConfig.contact.phone}</p>
                   </div>
                 </motion.a>
                 <motion.a 
-                  href="mailto:phanimathangi98@gmail.com"
+                  href={`mailto:${siteConfig.contact.email}`}
                   className="flex items-start gap-4 transition-all hover:text-primary"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400 }}
@@ -222,11 +227,11 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold">Email</h4>
-                    <p className="text-muted-foreground">phanimathangi98@gmail.com</p>
+                    <p className="text-muted-foreground">{siteConfig.contact.email}</p>
                   </div>
                 </motion.a>
                 <motion.a 
-                  href="https://linkedin.com/in/phani-mathangi"
+                  href={`https://${siteConfig.contact.linkedin}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-4 transition-all hover:text-primary"
@@ -238,11 +243,11 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold">LinkedIn</h4>
-                    <p className="text-muted-foreground">linkedin/phani-mathangi</p>
+                    <p className="text-muted-foreground">{siteConfig.contact.linkedin}</p>
                   </div>
                 </motion.a>
                 <motion.a 
-                  href="https://phani.mathangi.in"
+                  href={`https://${siteConfig.contact.website}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-4 transition-all hover:text-primary"
@@ -254,7 +259,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold">Website</h4>
-                    <p className="text-muted-foreground">phani.mathangi.in</p>
+                    <p className="text-muted-foreground">{siteConfig.contact.website}</p>
                   </div>
                 </motion.a>
               </div>
@@ -267,12 +272,12 @@ export default function ContactSection() {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <div className="connect-card">
-                <h4 className="font-semibold text-xl mb-2 text-gradient">Let's Connect</h4>
+                <h4 className="font-semibold text-xl mb-2 text-gradient">{contactInfo.connectionCard.title}</h4>
                 <p className="text-muted-foreground mb-4">
-                  I'm always open to discussing new projects, opportunities, or partnerships.
+                  {contactInfo.connectionCard.description}
                 </p>
                 <Button variant="outline" asChild className="w-full bg-gradient-to-r hover:bg-gradient-to-r from-transparent to-transparent hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 border border-blue-300 dark:border-blue-800">
-                  <a href="mailto:phanimathangi98@gmail.com" className="flex items-center justify-center gap-2">
+                  <a href={`mailto:${siteConfig.contact.email}`} className="flex items-center justify-center gap-2">
                     <Mail className="h-4 w-4" />
                     <span>Email Me</span>
                   </a>

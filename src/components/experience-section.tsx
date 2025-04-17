@@ -1,29 +1,12 @@
 
-import { motion } from "framer-motion"
-import { CheckCircle2 } from "lucide-react"
-
-const experienceData = [
-  {
-    company: "Caretcloud Technologies",
-    role: "Senior DevOps Engineer",
-    period: "Sep 2023 - Present",
-    current: true
-  },
-  {
-    company: "Wipro, Hyderabad",
-    role: "DevOps Engineer",
-    period: "April 2022 - Feb 2023",
-    current: false
-  },
-  {
-    company: "Tech well IT solutions, Hyderabad",
-    role: "Build and Release Engineer",
-    period: "Jan 2020 - March 2022",
-    current: false
-  }
-]
+import { motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
+import { siteConfig } from "@/config/site-config";
 
 export default function ExperienceSection() {
+  // If the section is disabled in config, don't render anything
+  if (!siteConfig.sections.showExperience) return null;
+  
   return (
     <section id="experience" className="py-16 md:py-24 bg-secondary/30">
       <div className="section-container">
@@ -40,7 +23,7 @@ export default function ExperienceSection() {
           <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 h-full w-1 bg-border"></div>
           
           {/* Experience items */}
-          {experienceData.map((item, index) => (
+          {siteConfig.experience.map((item, index) => (
             <motion.div 
               key={index}
               className="relative mb-12"
@@ -57,7 +40,7 @@ export default function ExperienceSection() {
                 <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
                   <div className="bg-card p-6 rounded-lg shadow-md card-hover">
                     <h3 className="text-xl font-bold">
-                      {item.role}
+                      {item.position}
                       {item.current && (
                         <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/20 text-primary">
                           Current
@@ -78,18 +61,7 @@ export default function ExperienceSection() {
           <h3 className="heading-sm mb-6 text-center">Key Responsibilities & Achievements</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              "Infrastructure management and automation",
-              "CI/CD pipeline development",
-              "Cloud architecture design",
-              "Containerization with Docker and Kubernetes",
-              "Security implementation and compliance",
-              "Cost optimization strategies",
-              "High-availability systems design",
-              "Monitoring and alerting setup",
-              "Infrastructure as Code development",
-              "Team collaboration and knowledge sharing"
-            ].map((item, index) => (
+            {siteConfig.keyResponsibilities.map((item, index) => (
               <motion.div 
                 key={index}
                 className="flex items-start gap-2"

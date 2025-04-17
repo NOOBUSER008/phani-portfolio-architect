@@ -7,20 +7,27 @@ import { ThemeToggle } from "./theme-toggle"
 import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
+import { siteConfig } from "@/config/site-config"
 
-const navItems = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Experience", href: "#experience" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
-]
+// Generate nav items from the sections configuration
+const generateNavItems = () => {
+  return siteConfig.sections.order
+    .filter(sectionId => 
+      // Only include sections that are visible
+      siteConfig.sections[`show${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)}`]
+    )
+    .map(sectionId => {
+      // Convert section ID to display name (capitalize first letter)
+      const name = sectionId.charAt(0).toUpperCase() + sectionId.slice(1);
+      return { name, href: `#${sectionId}` };
+    });
+};
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
+  const navItems = generateNavItems();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,7 +54,7 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [scrolled, activeSection])
+  }, [scrolled, activeSection, navItems])
 
   // Close mobile menu when clicking a link
   const handleNavItemClick = () => {
@@ -77,7 +84,7 @@ export default function Navbar() {
               href="#home" 
               className="text-foreground transition-all duration-300 hover:scale-105"
             >
-              Phani<span className="text-primary">.</span>
+              {siteConfig.name.split(" ")[0]}<span className="text-primary">.</span>
             </a>
           </motion.div>
 

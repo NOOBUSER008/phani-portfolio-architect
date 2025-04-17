@@ -12,6 +12,18 @@ import ResumeSection from "@/components/resume-section";
 import { siteConfig } from "@/config/site-config";
 import { motion } from "framer-motion";
 
+// Map section IDs to their components
+const sectionComponents = {
+  hero: HeroSection,
+  about: AboutSection,
+  skills: SkillsSection,
+  experience: ExperienceSection,
+  projects: ProjectsSection,
+  certifications: CertificationsSection,
+  resume: ResumeSection,
+  contact: ContactSection,
+};
+
 const Index = () => {
   return (
     <div className="min-h-screen">
@@ -30,90 +42,36 @@ const Index = () => {
           </svg>
         </div>
       
-        {/* Main content sections with entrance animations */}
+        {/* Main content sections with entrance animations based on config order */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {siteConfig.sections.showHero && <HeroSection />}
-          
-          {siteConfig.sections.showAbout && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <AboutSection />
-            </motion.div>
-          )}
-          
-          {siteConfig.sections.showSkills && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <SkillsSection />
-            </motion.div>
-          )}
-          
-          {siteConfig.sections.showExperience && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <ExperienceSection />
-            </motion.div>
-          )}
-          
-          {siteConfig.sections.showProjects && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <ProjectsSection />
-            </motion.div>
-          )}
-          
-          {siteConfig.sections.showCertifications && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <CertificationsSection />
-            </motion.div>
-          )}
-          
-          {siteConfig.sections.showResume && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <ResumeSection />
-            </motion.div>
-          )}
-          
-          {siteConfig.sections.showContact && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <ContactSection />
-            </motion.div>
-          )}
+          {siteConfig.sections.order.map((sectionId) => {
+            // Skip sections that are disabled in config
+            if (!siteConfig.sections[`show${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)}`]) {
+              return null;
+            }
+
+            // Get the component for this section
+            const SectionComponent = sectionComponents[sectionId];
+            if (!SectionComponent) {
+              return null;
+            }
+
+            return (
+              <motion.div
+                key={sectionId}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <SectionComponent />
+              </motion.div>
+            );
+          })}
         </motion.div>
       </main>
       <Footer />

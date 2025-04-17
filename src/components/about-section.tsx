@@ -46,7 +46,7 @@ export default function AboutSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {siteConfig.about.highlights.map((highlight, index) => {
               // Dynamically get the correct Lucide icon component
-              const IconComponent = LucideIcons[highlight.icon as IconName];
+              const IconComponent = highlight.icon ? LucideIcons[highlight.icon as IconName] : null;
               
               return (
                 <div key={index} className="bg-card shadow-md rounded-xl p-6 card-hover">

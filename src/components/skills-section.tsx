@@ -63,7 +63,7 @@ export default function SkillsSection() {
         >
           {siteConfig.skillsCategories.map((category, index) => {
             // Dynamically get the correct Lucide icon component
-            const IconComponent = LucideIcons[category.icon as IconName];
+            const IconComponent = category.icon ? LucideIcons[category.icon as IconName] : null;
             
             return (
               <motion.div

@@ -20,47 +20,19 @@ export const ProfileDisplay = () => {
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex items-center justify-center">
-          {/* Enhanced border with stronger visibility in light mode */}
-          <div className="absolute inset-0 rounded-full border-[6px] border-primary/30 dark:border-blue-500/40 shadow-lg"></div>
+          {/* Dynamic pulsing outer border */}
+          <DynamicOuterBorder />
           
           {/* Professional tech orbital background */}
-          <ProfessionalOrbitalBackground />
+          <OrbitalBackground />
           
           {/* Main content container */}
           <div className="relative w-full h-full rounded-full bg-transparent flex items-center justify-center overflow-hidden">
             {/* Core element with professional styling */}
-            <motion.div 
-              className="relative flex items-center justify-center"
-              animate={{ 
-                scale: [0.98, 1.02, 0.98],
-              }}
-              transition={{ 
-                duration: 8,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "loop",
-                ease: "easeInOut",
-              }}
-            >
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-r from-blue-600/40 to-primary/40 dark:from-blue-500/50 dark:to-primary/50 flex items-center justify-center backdrop-blur-md shadow-xl">
-                <motion.div 
-                  className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-card/70 backdrop-blur-sm flex items-center justify-center border border-primary/20 dark:border-blue-400/20"
-                  animate={{ 
-                    boxShadow: ["0 0 10px rgba(59,130,246,0.3)", "0 0 20px rgba(59,130,246,0.5)", "0 0 10px rgba(59,130,246,0.3)"],
-                  }}
-                  transition={{ 
-                    duration: 4,
-                    repeat: Number.POSITIVE_INFINITY,
-                    repeatType: "loop",
-                    ease: "easeInOut",
-                  }}
-                >
-                  <TechCore theme={theme} />
-                </motion.div>
-              </div>
-            </motion.div>
+            <CoreElement theme={theme} />
             
             {/* Tech tool icons with professional styling */}
-            <ProfessionalTechIcons />
+            <TechIcons />
           </div>
         </div>
       </motion.div>
@@ -68,8 +40,71 @@ export const ProfileDisplay = () => {
   );
 };
 
-// Professional orbital background with subtle animations
-const ProfessionalOrbitalBackground = () => {
+// Dynamic pulsing outer border with movement
+const DynamicOuterBorder = () => {
+  return (
+    <motion.div 
+      className="absolute -inset-2 rounded-full"
+      animate={{
+        boxShadow: [
+          "0 0 0 4px rgba(59,130,246,0.3)",
+          "0 0 0 6px rgba(59,130,246,0.2)",
+          "0 0 0 4px rgba(59,130,246,0.3)"
+        ],
+      }}
+      transition={{ 
+        duration: 3,
+        repeat: Number.POSITIVE_INFINITY,
+        repeatType: "loop",
+        ease: "easeInOut",
+      }}
+    >
+      {/* Animated gradient border */}
+      <svg width="100%" height="100%" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.6">
+              <animate 
+                attributeName="stopColor" 
+                values="#3B82F6; #60A5FA; #3B82F6" 
+                dur="4s" 
+                repeatCount="indefinite" 
+              />
+            </stop>
+            <stop offset="100%" stopColor="#2563EB" stopOpacity="0.6">
+              <animate 
+                attributeName="stopColor" 
+                values="#2563EB; #1E40AF; #2563EB" 
+                dur="4s" 
+                repeatCount="indefinite" 
+              />
+            </stop>
+          </linearGradient>
+        </defs>
+        <motion.circle 
+          cx="50" 
+          cy="50" 
+          r="49" 
+          fill="none" 
+          stroke="url(#borderGradient)" 
+          strokeWidth="1.5"
+          animate={{
+            r: [49, 48, 49],
+            strokeWidth: [1.5, 2, 1.5]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "loop",
+          }}
+        />
+      </svg>
+    </motion.div>
+  );
+};
+
+// Orbital background with subtle animations
+const OrbitalBackground = () => {
   return (
     <div className="absolute inset-0 w-full h-full">
       {/* Primary orbital ring */}
@@ -82,15 +117,27 @@ const ProfessionalOrbitalBackground = () => {
       {/* Secondary orbital ring */}
       <motion.div 
         className="absolute inset-4 border border-primary/20 dark:border-primary/30 rounded-full"
-        animate={{ rotate: -360 }}
-        transition={{ duration: 45, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        animate={{ 
+          rotate: -360,
+          scale: [1, 1.02, 1]
+        }}
+        transition={{ 
+          rotate: { duration: 45, repeat: Number.POSITIVE_INFINITY, ease: "linear" },
+          scale: { duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }
+        }}
       />
       
       {/* Tertiary orbital dotted ring */}
       <motion.div 
         className="absolute inset-8 border border-dashed border-secondary/30 dark:border-secondary/40 rounded-full"
-        animate={{ rotate: 180 }}
-        transition={{ duration: 90, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        animate={{ 
+          rotate: 180,
+          scale: [1, 0.98, 1]
+        }}
+        transition={{ 
+          rotate: { duration: 90, repeat: Number.POSITIVE_INFINITY, ease: "linear" },
+          scale: { duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }
+        }}
       />
       
       {/* Subtle glow effect */}
@@ -100,90 +147,87 @@ const ProfessionalOrbitalBackground = () => {
 };
 
 // Core tech visualization
-const TechCore = ({ theme }: { theme: string | undefined }) => {
+const CoreElement = ({ theme }: { theme: string | undefined }) => {
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
-      <svg viewBox="0 0 100 100" width="80%" height="80%" className="opacity-80">
-        <defs>
-          <linearGradient id="techGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={theme === 'dark' ? "#3B82F6" : "#2563EB"} />
-            <stop offset="100%" stopColor={theme === 'dark' ? "#8B5CF6" : "#6366F1"} />
-          </linearGradient>
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
-        
-        {/* Central icon symbolizing DevOps integration */}
-        <motion.g
+    <motion.div 
+      className="relative w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center"
+      animate={{ 
+        scale: [0.98, 1.02, 0.98],
+      }}
+      transition={{ 
+        duration: 8,
+        repeat: Number.POSITIVE_INFINITY,
+        repeatType: "loop",
+        ease: "easeInOut",
+      }}
+    >
+      <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-600/40 to-primary/40 dark:from-blue-500/50 dark:to-primary/50 flex items-center justify-center backdrop-blur-md shadow-xl">
+        <motion.div 
+          className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-card/70 backdrop-blur-sm flex items-center justify-center border border-primary/20 dark:border-blue-400/20"
           animate={{ 
-            rotate: 360,
+            boxShadow: ["0 0 10px rgba(59,130,246,0.3)", "0 0 20px rgba(59,130,246,0.5)", "0 0 10px rgba(59,130,246,0.3)"],
           }}
           transition={{ 
-            duration: 40, 
+            duration: 4,
             repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
+            repeatType: "loop",
+            ease: "easeInOut",
           }}
-          filter="url(#glow)"
         >
-          {/* Cloud */}
-          <path 
-            d="M65,40 Q75,35 75,45 Q80,40 85,45 Q90,50 85,55 Q87,60 80,60 L55,60 Q45,60 45,50 Q45,40 55,40 Z" 
-            fill="none" 
-            stroke="url(#techGradient)" 
-            strokeWidth="1.5" 
-          />
-          
-          {/* Server */}
-          <rect x="30" y="45" width="20" height="30" rx="2" fill="none" stroke="url(#techGradient)" strokeWidth="1.5" />
-          <line x1="30" y1="55" x2="50" y2="55" stroke="url(#techGradient)" strokeWidth="1" />
-          <line x1="30" y1="65" x2="50" y2="65" stroke="url(#techGradient)" strokeWidth="1" />
-          
-          {/* Connection lines */}
-          <path 
-            d="M50,50 C55,50 60,40 65,40" 
-            fill="none" 
-            stroke="url(#techGradient)" 
-            strokeWidth="1.5" 
-            strokeDasharray="3,2"
-          />
-          
-          {/* Code brackets */}
-          <path 
-            d="M20,30 L15,50 L20,70" 
-            fill="none" 
-            stroke="url(#techGradient)" 
-            strokeWidth="1.5" 
-          />
-          <path 
-            d="M80,30 L85,50 L80,70" 
-            fill="none" 
-            stroke="url(#techGradient)" 
-            strokeWidth="1.5" 
-          />
-        </motion.g>
-      </svg>
-      
-      {/* Subtle pulsing effect */}
-      <motion.div 
-        className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/10 to-primary/10 dark:from-blue-400/15 dark:to-primary/15"
-        animate={{ 
-          opacity: [0.2, 0.5, 0.2],
-        }}
-        transition={{ 
-          duration: 3, 
-          repeat: Number.POSITIVE_INFINITY,
-          repeatType: "loop",
-          ease: "easeInOut",
-        }}
-      />
-    </div>
+          {/* DevOps Icon */}
+          <motion.div 
+            className="relative w-full h-full flex items-center justify-center"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 40, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          >
+            <svg viewBox="0 0 100 100" width="80%" height="80%" className="opacity-80">
+              <defs>
+                <linearGradient id="techGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor={theme === 'dark' ? "#3B82F6" : "#2563EB"} />
+                  <stop offset="100%" stopColor={theme === 'dark' ? "#8B5CF6" : "#6366F1"} />
+                </linearGradient>
+              </defs>
+              
+              {/* Infinity symbol for DevOps */}
+              <motion.path 
+                d="M35,50 C35,42 40,35 50,35 C60,35 65,42 65,50 C65,58 60,65 50,65 C40,65 35,58 35,50 Z M65,50 C65,42 70,35 80,35 C90,35 95,42 95,50 C95,58 90,65 80,65 C70,65 65,58 65,50 Z M35,50 C35,58 30,65 20,65 C10,65 5,58 5,50 C5,42 10,35 20,35 C30,35 35,42 35,50 Z"
+                fill="none" 
+                stroke="url(#techGradient)" 
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              
+              {/* Cloud icon */}
+              <path 
+                d="M65,40 Q75,35 75,45 Q80,40 85,45 Q90,50 85,55 Q87,60 80,60 L55,60 Q45,60 45,50 Q45,40 55,40 Z" 
+                fill="none" 
+                stroke="url(#techGradient)" 
+                strokeWidth="1.5" 
+              />
+              
+              {/* Server icon */}
+              <rect x="30" y="45" width="20" height="30" rx="2" fill="none" stroke="url(#techGradient)" strokeWidth="1.5" />
+              <line x1="30" y1="55" x2="50" y2="55" stroke="url(#techGradient)" strokeWidth="1" />
+              <line x1="30" y1="65" x2="50" y2="65" stroke="url(#techGradient)" strokeWidth="1" />
+              
+              {/* Connection lines */}
+              <path 
+                d="M50,50 C55,50 60,40 65,40" 
+                fill="none" 
+                stroke="url(#techGradient)" 
+                strokeWidth="1.5" 
+                strokeDasharray="3,2"
+              />
+            </svg>
+          </motion.div>
+        </motion.div>
+      </div>
+    </motion.div>
   );
 };
 
 // Professional tech icons with refined animations
-const ProfessionalTechIcons = () => {
+const TechIcons = () => {
   const technologies = [
     { Icon: Server, label: "Infrastructure", color: "bg-blue-600 dark:bg-blue-500" },
     { Icon: Cloud, label: "Cloud", color: "bg-indigo-600 dark:bg-indigo-500" },

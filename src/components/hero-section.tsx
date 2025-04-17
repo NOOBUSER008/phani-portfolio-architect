@@ -19,8 +19,15 @@ export default function HeroSection() {
       transition={{ duration: 0.8 }}
     >
       <div className="section-container">
-        {/* DevOps Background Animation */}
-        <DevOpsInfinityBackground />
+        {/* DevOps Background Animation - with reduced opacity for subtlety */}
+        <motion.div
+          className="absolute inset-0 z-0 opacity-30 dark:opacity-40"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ duration: 1.2 }}
+        >
+          <DevOpsInfinityBackground />
+        </motion.div>
         
         {/* Content Wrapper with Enhanced Animation */}
         <motion.div 

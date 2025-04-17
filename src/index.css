@@ -36,7 +36,7 @@
     --radius: 0.5rem;
     
     /* DevOps theme colors - Light */
-    --devops-primary: 210 100% 50%;
+    --devops-primary: 221 83% 53%;
     --devops-secondary: 262 83% 58%;
     --devops-accent: 199 89% 48%;
     --devops-green: 145 63% 42%;
@@ -87,6 +87,12 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  
   body {
     @apply bg-background text-foreground;
   }
@@ -94,7 +100,7 @@
 
 @layer components {
   .heading-xl {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight;
   }
   
   .heading-lg {
@@ -110,11 +116,11 @@
   }
   
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-md hover:-translate-y-1;
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-2;
   }
   
   .section-container {
-    @apply container mx-auto px-4;
+    @apply container mx-auto px-4 md:px-8;
   }
   
   .flex-center {
@@ -122,113 +128,132 @@
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-blue-600 via-purple-500 to-blue-500 dark:from-blue-400 dark:via-purple-400 dark:to-blue-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 dark:from-blue-400 dark:via-blue-500 dark:to-indigo-400 bg-clip-text text-transparent;
   }
   
   .profile-gradient {
-    @apply bg-gradient-to-br from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-500;
+    @apply bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500;
   }
   
   .card-gradient {
-    @apply bg-gradient-to-br from-card to-secondary/30 hover:to-primary/10 transition-all duration-300;
+    @apply bg-gradient-to-br from-card to-secondary/5 hover:to-primary/10 transition-all duration-300;
   }
   
-  /* DevOps specific styling */
-  .devops-glow {
-    @apply relative;
-    box-shadow: 0 0 20px 5px hsla(var(--devops-primary), 0.3);
+  /* Enhanced transition effects */
+  .section-transition {
+    @apply transition-all duration-500 ease-in-out;
   }
   
-  .devops-card {
-    @apply rounded-lg border border-blue-200/30 dark:border-blue-900/30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm;
+  /* Custom scroll indicator */
+  ::-webkit-scrollbar {
+    @apply w-2;
   }
   
-  .infinity-path {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: dash 10s linear infinite;
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary/20 rounded-full;
   }
   
-  .connect-card {
-    @apply bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-lg border border-blue-100 dark:border-blue-900 p-6 shadow-lg;
-    box-shadow: 0 4px 20px rgba(0, 100, 255, 0.15);
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/40 rounded-full hover:bg-primary/60 transition-colors;
   }
   
-  /* DevOps grid background */
-  .devops-grid {
-    background-color: transparent;
-    background-image: linear-gradient(#111 1px, transparent 1px),
-                     linear-gradient(90deg, #111 1px, transparent 1px);
-    background-size: 30px 30px;
+  /* Professional card styling */
+  .professional-card {
+    @apply bg-card border border-primary/10 rounded-xl shadow-md hover:shadow-lg transition-all duration-300;
   }
   
-  @keyframes dash {
-    to {
-      stroke-dashoffset: 0;
-    }
+  /* Enhanced focus styles */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
+  
+  /* Professional transitions */
+  .fade-in {
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  .slide-in-up {
+    animation: slideInUp 0.5s ease forwards;
+  }
+  
+  /* Animation keyframes */
+  @keyframes fadeIn {
     from {
-      stroke-dashoffset: 1000;
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
   
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
     }
-    50% {
-      transform: translateY(-10px);
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
   
   @keyframes pulse {
     0%, 100% {
-      opacity: 1;
-    }
-    50% {
       opacity: 0.7;
     }
-  }
-  
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  .animate-float {
-    animation: float 5s ease-in-out infinite;
-  }
-  
-  .animate-pulse-slow {
-    animation: pulse 3s ease-in-out infinite;
-  }
-  
-  .animate-rotate {
-    animation: rotate 20s linear infinite;
-  }
-  
-  /* Particle animations */
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    background-color: hsl(var(--devops-primary));
-    pointer-events: none;
-  }
-  
-  @keyframes particle-animation {
-    0% {
-      opacity: 0;
-      transform: scale(0);
-    }
     50% {
       opacity: 1;
     }
-    100% {
-      opacity: 0;
-      transform: scale(1);
+  }
+  
+  @keyframes gradientFlow {
+    0% {
+      background-position: 0% 50%;
     }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Page transition utilities */
+  .page-enter {
+    @apply opacity-0;
+  }
+  
+  .page-enter-active {
+    @apply opacity-100 transition-opacity duration-300;
+  }
+  
+  .page-exit {
+    @apply opacity-100;
+  }
+  
+  .page-exit-active {
+    @apply opacity-0 transition-opacity duration-300;
+  }
+  
+  /* Professional buttons */
+  .button-primary {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg focus-ring;
+  }
+  
+  .button-secondary {
+    @apply bg-transparent border border-primary/30 hover:border-primary/80 text-primary hover:bg-primary/5 font-medium py-2 px-4 rounded-lg transition-all duration-300 focus-ring;
+  }
+  
+  /* Tech-themed backgrounds */
+  .tech-grid {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  }
+  
+  .tech-dots {
+    background-image: radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
   }
 }

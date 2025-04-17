@@ -62,8 +62,16 @@ export default function SkillsSection() {
           viewport={{ once: true }}
         >
           {siteConfig.skillsCategories.map((category, index) => {
-            // Dynamically get the correct Lucide icon component
-            const IconComponent = category.icon ? LucideIcons[category.icon as IconName] : null;
+            // Safely get the correct Lucide icon component
+            let IconComponent = null;
+            
+            if (category.icon && typeof category.icon === 'string') {
+              const iconName = category.icon as IconName;
+              // Check if the icon exists in Lucide
+              if (LucideIcons[iconName]) {
+                IconComponent = LucideIcons[iconName];
+              }
+            }
             
             return (
               <motion.div
@@ -74,7 +82,11 @@ export default function SkillsSection() {
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-2 rounded-lg bg-primary/10">
-                    {IconComponent && <IconComponent className={category.iconColor} width={24} height={24} />}
+                    {IconComponent && React.createElement(IconComponent, { 
+                      className: category.iconColor, 
+                      width: 24, 
+                      height: 24 
+                    })}
                   </div>
                   <h3 className="heading-sm">{category.name}</h3>
                 </div>

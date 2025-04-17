@@ -1,4 +1,5 @@
 
+import React from "react";
 import { motion } from "framer-motion";
 import { siteConfig } from "@/config/site-config";
 import * as LucideIcons from "lucide-react";
@@ -114,8 +115,15 @@ export default function AboutSection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {siteConfig.about.highlights.map((highlight, index) => {
               // Safely get the correct Lucide icon component
-              const iconName = highlight.icon as IconName;
-              const IconComponent = iconName ? LucideIcons[iconName] : null;
+              let IconComponent = null;
+              
+              if (highlight.icon && typeof highlight.icon === 'string') {
+                const iconName = highlight.icon as IconName;
+                // Check if the icon exists in Lucide
+                if (LucideIcons[iconName]) {
+                  IconComponent = LucideIcons[iconName];
+                }
+              }
               
               return (
                 <motion.div
@@ -133,7 +141,11 @@ export default function AboutSection() {
                   }}
                 >
                   <div className="bg-gradient-to-br from-blue-500/20 to-indigo-500/20 dark:from-blue-500/30 dark:to-indigo-500/30 p-3 rounded-full inline-block mb-4">
-                    {IconComponent && <IconComponent className="text-primary" width={24} height={24} />}
+                    {IconComponent && React.createElement(IconComponent, { 
+                      className: "text-primary", 
+                      width: 24, 
+                      height: 24 
+                    })}
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-foreground/90">{highlight.title}</h3>
                   <p className="text-muted-foreground">{highlight.description}</p>

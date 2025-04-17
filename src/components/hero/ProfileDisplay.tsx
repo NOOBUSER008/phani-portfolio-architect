@@ -20,18 +20,21 @@ export const ProfileDisplay = () => {
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full p-1.5 flex items-center justify-center">
+          {/* Enhanced visible border - thicker and more visible in light mode */}
+          <div className="absolute inset-0 rounded-full border-4 border-gray-800/30 dark:border-blue-500/30"></div>
+          
           {/* Dynamic circular elements with enhanced motion */}
           <EnhancedCircularElements />
           
           {/* Animated rings with more dynamic movement */}
           <motion.div 
-            className="absolute inset-0 rounded-full border-2 border-dashed border-blue-400/30 dark:border-blue-500/30"
+            className="absolute inset-0 rounded-full border-2 border-dashed border-gray-700/50 dark:border-blue-500/30"
             animate={{ rotate: 360 }}
             transition={{ duration: 30, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
           />
           
           <motion.div 
-            className="absolute inset-2 rounded-full border-2 border-dashed border-purple-400/20 dark:border-purple-500/20"
+            className="absolute inset-2 rounded-full border-2 border-dashed border-gray-600/40 dark:border-purple-500/20"
             animate={{ rotate: -360 }}
             transition={{ duration: 40, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
           />

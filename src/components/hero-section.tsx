@@ -3,8 +3,12 @@ import { DevOpsInfinityBackground } from "@/components/hero/DevOpsInfinityBackgr
 import { HeroContent } from "@/components/hero/HeroContent";
 import { ProfileDisplay } from "@/components/hero/ProfileDisplay";
 import { ScrollIndicator } from "@/components/hero/ScrollIndicator";
+import { siteConfig } from "@/config/site-config";
 
 export default function HeroSection() {
+  // Only render if showHero is true in the configuration
+  if (!siteConfig.sections.showHero) return null;
+  
   return (
     <section 
       id="home" 

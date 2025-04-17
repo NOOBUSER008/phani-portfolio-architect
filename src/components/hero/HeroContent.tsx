@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import { siteConfig } from "@/config/site-config";
 
 export const HeroContent = () => {
   return (
@@ -12,13 +13,13 @@ export const HeroContent = () => {
       transition={{ duration: 0.5 }}
     >
       <h1 className="heading-xl sm:leading-tight">
-        Hi, I'm <span className="text-gradient">Phani Mathangi</span>
+        Hi, I'm <span className="text-gradient">{siteConfig.name}</span>
       </h1>
       <h2 className="heading-md text-muted-foreground mt-2">
-        Senior DevOps Engineer
+        {siteConfig.title}
       </h2>
       <p className="text-base md:text-lg max-w-2xl mx-auto lg:mx-0">
-        Specializing in infrastructure management, automation, and cloud security with over 4 years of experience.
+        {siteConfig.description}
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
         <Button size="lg" asChild className="rounded-full bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-purple-500 hover:shadow-lg hover:shadow-primary/20">
@@ -28,7 +29,7 @@ export const HeroContent = () => {
           <a href="#projects">View Projects</a>
         </Button>
         <Button size="lg" variant="secondary" asChild className="rounded-full bg-gradient-to-r from-secondary/50 to-secondary/20 dark:from-accent dark:to-accent/50">
-          <a href="/assets/phani_mathangi_resume.pdf" download>
+          <a href={siteConfig.resumePath} download>
             <Download className="mr-2 h-4 w-4" />
             Resume
           </a>

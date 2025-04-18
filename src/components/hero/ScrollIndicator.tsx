@@ -1,11 +1,14 @@
 
 import { motion } from "framer-motion";
 import { ArrowDownIcon } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const ScrollIndicator = () => {
+  const isMobile = useIsMobile();
+  
   return (
     <motion.div 
-      className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+      className={`absolute ${isMobile ? 'bottom-4' : 'bottom-8'} left-1/2 transform -translate-x-1/2 z-10`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.8 }}

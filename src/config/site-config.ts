@@ -1,3 +1,4 @@
+
 export const siteConfig = {
   // Basic info
   name: "Phani Mathangi",
@@ -33,7 +34,7 @@ export const siteConfig = {
     showResume: true,
     showContact: true,
     
-    // Section order - Put hero first
+    // Section order - Hero first
     order: [
       "hero",
       "about",

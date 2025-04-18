@@ -219,7 +219,7 @@ const CoreElement = ({ theme }: { theme: string | undefined }) => {
   );
 };
 
-// Professional tech icons with refined animations
+// Professional tech icons with refined animations and improved mobile support
 const TechIcons = ({ isMobile }: { isMobile: boolean }) => {
   const technologies = [
     { Icon: Server, label: "Infrastructure", color: "bg-blue-600/90 dark:bg-blue-500/90" },
@@ -232,55 +232,52 @@ const TechIcons = ({ isMobile }: { isMobile: boolean }) => {
     { Icon: Codepen, label: "CI/CD", color: "bg-cyan-600/90 dark:bg-cyan-500/90" }
   ];
   
-  // Adjust radius based on screen size
-  const baseRadius = isMobile ? 60 : 100;
+  // Calculate optimal radius based on screen size
+  const baseRadius = isMobile ? 90 : 110; // Adjusted radius for mobile
+  const iconSize = isMobile ? 14 : 16;
+  const padding = isMobile ? "p-1.5" : "p-2";
   
   return (
     <>
       {technologies.map((tech, index) => {
+        // Position in circle using consistent angles
         const angle = (index / technologies.length) * 2 * Math.PI;
-        const x = `${Math.cos(angle) * baseRadius}px`;
-        const y = `${Math.sin(angle) * baseRadius}px`;
+        const x = Math.cos(angle) * baseRadius;
+        const y = Math.sin(angle) * baseRadius;
         
         return (
           <motion.div
             key={`tech-${index}`}
-            className="absolute"
+            className="absolute z-10"
             style={{
               left: "50%",
               top: "50%",
             }}
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0 }}
             animate={{
               opacity: 1,
               scale: 1,
-              x: [
-                `calc(-50% + ${x})`,
-                `calc(-50% + ${x} + ${Math.cos(angle + Math.PI/4) * 5}px)`,
-                `calc(-50% + ${x} - ${Math.cos(angle + Math.PI/4) * 5}px)`,
-                `calc(-50% + ${x})`
-              ],
-              y: [
-                `calc(-50% + ${y})`,
-                `calc(-50% + ${y} + ${Math.sin(angle + Math.PI/4) * 5}px)`,
-                `calc(-50% + ${y} - ${Math.sin(angle + Math.PI/4) * 5}px)`,
-                `calc(-50% + ${y})`
-              ]
+              x: `calc(-50% + ${x}px)`,
+              y: `calc(-50% + ${y}px)`,
             }}
             transition={{
-              opacity: { duration: 0.5, delay: index * 0.1 },
-              scale: { duration: 0.3, delay: index * 0.1 },
-              x: { duration: 6 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" },
-              y: { duration: 6 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" }
+              opacity: { duration: 0.3, delay: index * 0.1 },
+              scale: { duration: 0.4, delay: index * 0.1 },
+              x: { duration: 0.4, delay: index * 0.1 }, 
+              y: { duration: 0.4, delay: index * 0.1 }
             }}
-            whileHover={{ scale: 1.2, zIndex: 20 }}
+            whileHover={{ scale: 1.15, zIndex: 30 }}
           >
-            <div className={`relative p-1.5 sm:p-2 rounded-full shadow-lg backdrop-blur-sm ${tech.color}`}>
-              <tech.Icon size={isMobile ? 14 : 16} className="text-white" />
+            {/* Tech icon with improved mobile display */}
+            <div className={`relative ${padding} rounded-full shadow-lg backdrop-blur-sm ${tech.color}`}>
+              <tech.Icon size={iconSize} className="text-white" />
               
+              {/* Improved tooltip for mobile */}
               <motion.div 
-                className="absolute -bottom-6 sm:-bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-[8px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded whitespace-nowrap opacity-0 pointer-events-none z-50"
-                whileHover={{ opacity: 1, y: -2 }}
+                className="absolute -bottom-7 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 pointer-events-none z-50"
+                initial={{ opacity: 0, y: 5 }}
+                whileHover={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
               >
                 {tech.label}
               </motion.div>

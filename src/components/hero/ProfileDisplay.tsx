@@ -1,10 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/components/theme-provider";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Code2, Database, Globe, Server, Settings, Cloud, Command, Network, Codepen } from "lucide-react";
 
 export const ProfileDisplay = () => {
   const { theme } = useTheme();
+  const isMobile = useIsMobile();
 
   return (
     <motion.div 
@@ -14,12 +16,22 @@ export const ProfileDisplay = () => {
       transition={{ duration: 0.5, delay: 0.2 }}
     >
       <motion.div 
-        className="profile-container relative w-full max-w-[320px] aspect-square"
+        className="profile-container relative w-full max-w-[280px] sm:max-w-[320px] aspect-square"
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         {/* Dynamic pulsing outer border with rotation */}
-        <DynamicOuterBorder />
+        <motion.div 
+          className="absolute -inset-2 rounded-full bg-gradient-to-r from-blue-500/20 to-indigo-500/20 dark:from-blue-400/30 dark:to-indigo-400/30"
+          animate={{
+            rotate: 360,
+            scale: [1, 1.02, 1],
+          }}
+          transition={{ 
+            rotate: { duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" },
+            scale: { duration: 2, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }
+          }}
+        />
         
         {/* Professional tech orbital background */}
         <OrbitalBackground />
@@ -30,81 +42,9 @@ export const ProfileDisplay = () => {
           <CoreElement theme={theme} />
           
           {/* Tech tool icons with professional styling */}
-          <TechIcons />
+          <TechIcons isMobile={isMobile} />
         </div>
       </motion.div>
-    </motion.div>
-  );
-};
-
-// Dynamic pulsing outer border with rotation
-const DynamicOuterBorder = () => {
-  return (
-    <motion.div 
-      className="absolute -inset-2 rounded-full"
-      animate={{
-        rotate: 360,
-        boxShadow: [
-          "0 0 0 4px rgba(59,130,246,0.3)",
-          "0 0 0 6px rgba(59,130,246,0.2)",
-          "0 0 0 4px rgba(59,130,246,0.3)"
-        ],
-      }}
-      transition={{ 
-        rotate: {
-          duration: 30,
-          repeat: Number.POSITIVE_INFINITY,
-          repeatType: "loop",
-          ease: "linear",
-        },
-        boxShadow: { 
-          duration: 3,
-          repeat: Number.POSITIVE_INFINITY,
-          repeatType: "loop",
-          ease: "easeInOut",
-        }
-      }}
-    >
-      {/* Animated gradient border */}
-      <svg width="100%" height="100%" viewBox="0 0 100 100">
-        <defs>
-          <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.6">
-              <animate 
-                attributeName="stopColor" 
-                values="#3B82F6; #60A5FA; #3B82F6" 
-                dur="4s" 
-                repeatCount="indefinite" 
-              />
-            </stop>
-            <stop offset="100%" stopColor="#2563EB" stopOpacity="0.6">
-              <animate 
-                attributeName="stopColor" 
-                values="#2563EB; #1E40AF; #2563EB" 
-                dur="4s" 
-                repeatCount="indefinite" 
-              />
-            </stop>
-          </linearGradient>
-        </defs>
-        <motion.circle 
-          cx="50" 
-          cy="50" 
-          r="49" 
-          fill="none" 
-          stroke="url(#borderGradient)" 
-          strokeWidth="1.5"
-          animate={{
-            r: [49, 48, 49],
-            strokeWidth: [1.5, 2, 1.5]
-          }}
-          transition={{
-            duration: 4,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "loop",
-          }}
-        />
-      </svg>
     </motion.div>
   );
 };
@@ -280,65 +220,67 @@ const CoreElement = ({ theme }: { theme: string | undefined }) => {
 };
 
 // Professional tech icons with refined animations
-const TechIcons = () => {
+const TechIcons = ({ isMobile }: { isMobile: boolean }) => {
   const technologies = [
-    { Icon: Server, label: "Infrastructure", color: "bg-blue-600 dark:bg-blue-500" },
-    { Icon: Cloud, label: "Cloud", color: "bg-indigo-600 dark:bg-indigo-500" },
-    { Icon: Code2, label: "IaC", color: "bg-violet-600 dark:bg-violet-500" },
-    { Icon: Database, label: "Databases", color: "bg-green-600 dark:bg-green-500" },
-    { Icon: Settings, label: "Automation", color: "bg-amber-600 dark:bg-amber-500" },
-    { Icon: Command, label: "CLI", color: "bg-slate-600 dark:bg-slate-500" },
-    { Icon: Network, label: "Networking", color: "bg-red-600 dark:bg-red-500" },
-    { Icon: Codepen, label: "CI/CD", color: "bg-cyan-600 dark:bg-cyan-500" }
+    { Icon: Server, label: "Infrastructure", color: "bg-blue-600/90 dark:bg-blue-500/90" },
+    { Icon: Cloud, label: "Cloud", color: "bg-indigo-600/90 dark:bg-indigo-500/90" },
+    { Icon: Code2, label: "IaC", color: "bg-violet-600/90 dark:bg-violet-500/90" },
+    { Icon: Database, label: "Databases", color: "bg-green-600/90 dark:bg-green-500/90" },
+    { Icon: Settings, label: "Automation", color: "bg-amber-600/90 dark:bg-amber-500/90" },
+    { Icon: Command, label: "CLI", color: "bg-slate-600/90 dark:bg-slate-500/90" },
+    { Icon: Network, label: "Networking", color: "bg-red-600/90 dark:bg-red-500/90" },
+    { Icon: Codepen, label: "CI/CD", color: "bg-cyan-600/90 dark:bg-cyan-500/90" }
   ];
+  
+  // Adjust radius based on screen size
+  const baseRadius = isMobile ? 60 : 100;
   
   return (
     <>
       {technologies.map((tech, index) => {
         const angle = (index / technologies.length) * 2 * Math.PI;
-        const radius = "clamp(80px, 25vw, 120px)";
-        const x = `calc(${radius} * ${Math.cos(angle)})`;
-        const y = `calc(${radius} * ${Math.sin(angle)})`;
+        const x = `${Math.cos(angle) * baseRadius}px`;
+        const y = `${Math.sin(angle) * baseRadius}px`;
         
         return (
           <motion.div
             key={`tech-${index}`}
-            className="absolute transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute"
             style={{
               left: "50%",
               top: "50%",
-              transform: `translate(${x}, ${y})`,
             }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{
               opacity: 1,
               scale: 1,
               x: [
-                x,
-                `calc(${x} + ${Math.cos(angle + Math.PI/4) * 8}px)`,
-                `calc(${x} - ${Math.cos(angle + Math.PI/4) * 8}px)`,
-                x
+                `calc(-50% + ${x})`,
+                `calc(-50% + ${x} + ${Math.cos(angle + Math.PI/4) * 5}px)`,
+                `calc(-50% + ${x} - ${Math.cos(angle + Math.PI/4) * 5}px)`,
+                `calc(-50% + ${x})`
               ],
               y: [
-                y,
-                `calc(${y} + ${Math.sin(angle + Math.PI/4) * 8}px)`,
-                `calc(${y} - ${Math.sin(angle + Math.PI/4) * 8}px)`,
-                y
+                `calc(-50% + ${y})`,
+                `calc(-50% + ${y} + ${Math.sin(angle + Math.PI/4) * 5}px)`,
+                `calc(-50% + ${y} - ${Math.sin(angle + Math.PI/4) * 5}px)`,
+                `calc(-50% + ${y})`
               ]
             }}
             transition={{
               opacity: { duration: 0.5, delay: index * 0.1 },
-              x: { duration: 8 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" },
-              y: { duration: 8 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" }
+              scale: { duration: 0.3, delay: index * 0.1 },
+              x: { duration: 6 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" },
+              y: { duration: 6 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" }
             }}
             whileHover={{ scale: 1.2, zIndex: 20 }}
           >
-            <div className={`relative p-2 rounded-full shadow-md ${tech.color} text-white`}>
-              <tech.Icon size={16} className="sm:w-5 sm:h-5" />
+            <div className={`relative p-1.5 sm:p-2 rounded-full shadow-lg backdrop-blur-sm ${tech.color}`}>
+              <tech.Icon size={isMobile ? 14 : 16} className="text-white" />
               
               <motion.div 
-                className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-[10px] sm:text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 pointer-events-none z-50"
-                whileHover={{ opacity: 1, y: -5 }}
+                className="absolute -bottom-6 sm:-bottom-8 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-[8px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded whitespace-nowrap opacity-0 pointer-events-none z-50"
+                whileHover={{ opacity: 1, y: -2 }}
               >
                 {tech.label}
               </motion.div>

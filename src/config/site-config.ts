@@ -22,7 +22,7 @@ export const siteConfig = {
   
   // Section visibility and order configuration
   sections: {
-    // Visibility toggles - Set hero to false
+    // Visibility toggles
     showHero: true,
     showAbout: true,
     showSkills: true,
@@ -33,16 +33,16 @@ export const siteConfig = {
     showResume: true,
     showContact: true,
     
-    // Section order - Remove hero from the order array
+    // Section order - Put hero first
     order: [
+      "hero",
       "about",
       "skills", 
       "experience",
       "projects",
       "certifications", 
       "resume",
-      "contact",
-      "hero"  // Move hero to end so it's available but not at top
+      "contact"
     ]
   },
 

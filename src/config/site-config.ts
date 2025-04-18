@@ -1,4 +1,3 @@
-
 export const siteConfig = {
   // Basic info
   name: "Phani Mathangi",
@@ -23,8 +22,8 @@ export const siteConfig = {
   
   // Section visibility and order configuration
   sections: {
-    // Visibility toggles
-    showHero: true,
+    // Visibility toggles - Set hero to false
+    showHero: false,
     showAbout: true,
     showSkills: true,
     showExperience: true,
@@ -34,10 +33,8 @@ export const siteConfig = {
     showResume: true,
     showContact: true,
     
-    // Section order - array of section IDs in the order they should appear
-    // This allows reordering sections without changing component code
+    // Section order - Remove hero from the order array
     order: [
-      "hero",
       "about",
       "skills", 
       "experience",

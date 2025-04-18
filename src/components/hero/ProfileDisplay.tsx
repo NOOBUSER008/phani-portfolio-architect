@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/components/theme-provider";
@@ -9,31 +8,29 @@ export const ProfileDisplay = () => {
 
   return (
     <motion.div 
-      className="flex-1 flex justify-center"
+      className="flex-1 flex justify-center px-4 py-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
       <motion.div 
-        className="profile-container relative"
+        className="profile-container relative w-full max-w-[320px] aspect-square"
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
-        <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex items-center justify-center">
-          {/* Dynamic pulsing outer border with rotation */}
-          <DynamicOuterBorder />
+        {/* Dynamic pulsing outer border with rotation */}
+        <DynamicOuterBorder />
+        
+        {/* Professional tech orbital background */}
+        <OrbitalBackground />
+        
+        {/* Main content container */}
+        <div className="relative w-full h-full rounded-full bg-transparent flex items-center justify-center overflow-hidden">
+          {/* Core element with professional styling */}
+          <CoreElement theme={theme} />
           
-          {/* Professional tech orbital background */}
-          <OrbitalBackground />
-          
-          {/* Main content container */}
-          <div className="relative w-full h-full rounded-full bg-transparent flex items-center justify-center overflow-hidden">
-            {/* Core element with professional styling */}
-            <CoreElement theme={theme} />
-            
-            {/* Tech tool icons with professional styling */}
-            <TechIcons />
-          </div>
+          {/* Tech tool icons with professional styling */}
+          <TechIcons />
         </div>
       </motion.div>
     </motion.div>
@@ -298,44 +295,41 @@ const TechIcons = () => {
   return (
     <>
       {technologies.map((tech, index) => {
-        // Calculate position around the circle
+        // Calculate position with responsive radius
         const angle = (index / technologies.length) * 2 * Math.PI;
-        const radius = 120; // Adjusted for better visibility
-        const x = radius * Math.cos(angle);
-        const y = radius * Math.sin(angle);
+        const radius = "min(120px, 35%)"; // Responsive radius
+        const x = `calc(${radius} * ${Math.cos(angle)})`;
+        const y = `calc(${radius} * ${Math.sin(angle)})`;
         
         return (
           <motion.div
             key={`tech-${index}`}
-            className={`absolute ${tech.color} text-white p-2 rounded-full shadow-md z-10`}
-            initial={{ x, y, opacity: 0 }}
+            className={`absolute transform -translate-x-1/2 -translate-y-1/2 ${tech.color} text-white p-2 rounded-full shadow-md z-10`}
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: `translate(${x}, ${y})`,
+            }}
+            initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
               x: [
                 x,
-                x + Math.cos(angle + Math.PI/4) * 10,
-                x - Math.cos(angle + Math.PI/4) * 10,
+                `calc(${x} + ${Math.cos(angle + Math.PI/4) * 10}px)`,
+                `calc(${x} - ${Math.cos(angle + Math.PI/4) * 10}px)`,
                 x
               ],
               y: [
                 y,
-                y + Math.sin(angle + Math.PI/4) * 10,
-                y - Math.sin(angle + Math.PI/4) * 10,
+                `calc(${y} + ${Math.sin(angle + Math.PI/4) * 10}px)`,
+                `calc(${y} - ${Math.sin(angle + Math.PI/4) * 10}px)`,
                 y
               ]
             }}
             transition={{
               opacity: { duration: 0.5, delay: index * 0.1 },
-              x: { 
-                duration: 8 + index, 
-                repeat: Number.POSITIVE_INFINITY, 
-                repeatType: "mirror" 
-              },
-              y: { 
-                duration: 8 + index, 
-                repeat: Number.POSITIVE_INFINITY, 
-                repeatType: "mirror" 
-              }
+              x: { duration: 8 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" },
+              y: { duration: 8 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" }
             }}
             whileHover={{ scale: 1.2 }}
           >

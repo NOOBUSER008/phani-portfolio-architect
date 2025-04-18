@@ -295,34 +295,34 @@ const TechIcons = () => {
   return (
     <>
       {technologies.map((tech, index) => {
-        // Calculate position with responsive radius
         const angle = (index / technologies.length) * 2 * Math.PI;
-        const radius = "min(120px, 35%)"; // Responsive radius
+        const radius = "clamp(80px, 25vw, 120px)";
         const x = `calc(${radius} * ${Math.cos(angle)})`;
         const y = `calc(${radius} * ${Math.sin(angle)})`;
         
         return (
           <motion.div
             key={`tech-${index}`}
-            className={`absolute transform -translate-x-1/2 -translate-y-1/2 ${tech.color} text-white p-2 rounded-full shadow-md z-10`}
+            className="absolute transform -translate-x-1/2 -translate-y-1/2"
             style={{
               left: "50%",
               top: "50%",
               transform: `translate(${x}, ${y})`,
             }}
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{
               opacity: 1,
+              scale: 1,
               x: [
                 x,
-                `calc(${x} + ${Math.cos(angle + Math.PI/4) * 10}px)`,
-                `calc(${x} - ${Math.cos(angle + Math.PI/4) * 10}px)`,
+                `calc(${x} + ${Math.cos(angle + Math.PI/4) * 8}px)`,
+                `calc(${x} - ${Math.cos(angle + Math.PI/4) * 8}px)`,
                 x
               ],
               y: [
                 y,
-                `calc(${y} + ${Math.sin(angle + Math.PI/4) * 10}px)`,
-                `calc(${y} - ${Math.sin(angle + Math.PI/4) * 10}px)`,
+                `calc(${y} + ${Math.sin(angle + Math.PI/4) * 8}px)`,
+                `calc(${y} - ${Math.sin(angle + Math.PI/4) * 8}px)`,
                 y
               ]
             }}
@@ -331,14 +331,13 @@ const TechIcons = () => {
               x: { duration: 8 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" },
               y: { duration: 8 + index, repeat: Number.POSITIVE_INFINITY, repeatType: "mirror" }
             }}
-            whileHover={{ scale: 1.2 }}
+            whileHover={{ scale: 1.2, zIndex: 20 }}
           >
-            <div className="relative">
-              <tech.Icon size={20} />
+            <div className={`relative p-2 rounded-full shadow-md ${tech.color} text-white`}>
+              <tech.Icon size={16} className="sm:w-5 sm:h-5" />
               
-              {/* Tooltip */}
               <motion.div 
-                className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 pointer-events-none"
+                className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-[10px] sm:text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 pointer-events-none z-50"
                 whileHover={{ opacity: 1, y: -5 }}
               >
                 {tech.label}

@@ -23,7 +23,7 @@ export const siteConfig = {
   // Section visibility and order configuration
   sections: {
     // Visibility toggles - Set hero to false
-    showHero: false,
+    showHero: true,
     showAbout: true,
     showSkills: true,
     showExperience: true,
@@ -41,7 +41,8 @@ export const siteConfig = {
       "projects",
       "certifications", 
       "resume",
-      "contact"
+      "contact",
+      "hero"  // Move hero to end so it's available but not at top
     ]
   },
 

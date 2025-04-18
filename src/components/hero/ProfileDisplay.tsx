@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useTheme } from "@/components/theme-provider";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Code2, Database, Globe, Server, Settings, Cloud, Command, Network, Codepen } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const ProfileDisplay = () => {
   const { theme } = useTheme();
@@ -37,7 +38,7 @@ export const ProfileDisplay = () => {
         <OrbitalBackground />
         
         {/* Main content container */}
-        <div className="relative w-full h-full rounded-full bg-transparent flex items-center justify-center overflow-hidden">
+        <div className="relative w-full h-full rounded-full bg-transparent flex items-center justify-center overflow-visible">
           {/* Core element with professional styling */}
           <CoreElement theme={theme} />
           
@@ -232,13 +233,13 @@ const TechIcons = ({ isMobile }: { isMobile: boolean }) => {
     { Icon: Codepen, label: "CI/CD", color: "bg-cyan-600/90 dark:bg-cyan-500/90" }
   ];
   
-  // Calculate optimal radius based on screen size
-  const baseRadius = isMobile ? 90 : 110; // Adjusted radius for mobile
-  const iconSize = isMobile ? 14 : 16;
-  const padding = isMobile ? "p-1.5" : "p-2";
+  // Calculate optimal radius based on screen size - ensure icons are visible on mobile
+  const baseRadius = isMobile ? 75 : 110; 
+  const iconSize = isMobile ? 12 : 16;
+  const iconBgSize = isMobile ? "p-1" : "p-2";
   
   return (
-    <>
+    <TooltipProvider>
       {technologies.map((tech, index) => {
         // Position in circle using consistent angles
         const angle = (index / technologies.length) * 2 * Math.PI;
@@ -268,23 +269,19 @@ const TechIcons = ({ isMobile }: { isMobile: boolean }) => {
             }}
             whileHover={{ scale: 1.15, zIndex: 30 }}
           >
-            {/* Tech icon with improved mobile display */}
-            <div className={`relative ${padding} rounded-full shadow-lg backdrop-blur-sm ${tech.color}`}>
-              <tech.Icon size={iconSize} className="text-white" />
-              
-              {/* Improved tooltip for mobile */}
-              <motion.div 
-                className="absolute -bottom-7 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 pointer-events-none z-50"
-                initial={{ opacity: 0, y: 5 }}
-                whileHover={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2 }}
-              >
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className={`relative ${iconBgSize} rounded-full shadow-lg backdrop-blur-sm ${tech.color} cursor-pointer`}>
+                  <tech.Icon size={iconSize} className="text-white" />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side={isMobile ? "bottom" : "top"} className="bg-black/80 text-white border-none text-xs px-2 py-1">
                 {tech.label}
-              </motion.div>
-            </div>
+              </TooltipContent>
+            </Tooltip>
           </motion.div>
         );
       })}
-    </>
+    </TooltipProvider>
   );
 };
